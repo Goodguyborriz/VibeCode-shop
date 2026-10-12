@@ -111,6 +111,7 @@
     <div class="absolute -bottom-40 left-1/3 w-[36rem] h-[36rem] bg-indigo-600/10 rounded-full blur-[160px]"></div>
   </div>
 
+  <!-- Auth Gate Wall -->
   <div id="authGateWall" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-vibedark/95 backdrop-blur-2xl overflow-y-auto">
     <div id="gateCardContainer" class="w-full max-w-2xl glass-panel border border-cyan-500/40 rounded-3xl p-6 sm:p-9 shadow-2xl relative overflow-hidden my-8 transition-transform duration-200 max-h-[92vh] flex flex-col">
       
@@ -148,8 +149,8 @@
         </button>
       </div>
 
-      <!-- Registration Form (Overflow Scrollable Container) -->
-      <div class="overflow-y-auto pr-1 flex-grow">
+      <!-- Registration Form (Scrollable Container) -->
+      <div id="regFormScrollContainer" class="overflow-y-auto pr-1 flex-grow">
         <form id="gateRegisterForm" onsubmit="handleGateRegister(event)" class="space-y-4 text-xs font-mono pb-2">
           
           <div class="p-3 bg-cyan-950/30 border border-cyan-800/40 rounded-xl space-y-3">
@@ -344,7 +345,7 @@
       </div>
 
       <!-- Login Form with Strict Verification -->
-      <form id="gateLoginForm" onsubmit="handleGateLogin(event)" class="space-y-4 text-xs font-mono hidden shrink-0">
+      <form id="gateLoginForm" onsubmit="handleGateLogin(event)" class="space-y-4 text-xs font-mono hidden shrink-0 my-auto">
         <div id="loginErrorMessage" class="hidden p-3 rounded-xl bg-red-950/70 border border-red-500/60 text-red-200 text-xs flex items-start gap-2.5">
           <i class="fa-solid fa-circle-exclamation text-red-400 text-base mt-0.5 shrink-0"></i>
           <div>
@@ -381,7 +382,7 @@
         <span class="text-amber-400 font-bold block mb-1">
           <i class="fa-solid fa-terminal mr-1"></i> Tip pro etické hackery (DevTools Bypass):
         </span>
-        Tento otravný formulář nemusíte vyplňovat. Stiskněte <kbd class="code-tag">F12</kbd> &rarr; záložka <strong>Elements</strong> &rarr; najděte tag <code class="code-tag">&lt;div id="authGateWall"&gt;</code> a stiskněte klávesu <kbd class="code-tag">Delete</kbd>! Nebo přepněte na záložku <em>Rychlé Přihlášení</em> a použijte heslo z <code class="code-tag">console.log(userAccountsDb)</code>.
+        Tento otravný formulář nemusíte vyplňovat. Stiskněte <kbd class="code-tag">F12</kbd> &rarr; záložka <strong>Elements</strong> &rarr; najděte tag <code class="code-tag">&lt;div id="authGateWall"&gt;</code> a stiskněte klávesu <kbd class="code-tag">Delete</kbd>! Nebo v konzoli zadejte <code class="code-tag">console.table(userAccountsDb)</code> a použijte libovolný uniklý účet v záložce <em>Rychlé Přihlášení</em>.
       </div>
 
     </div>
@@ -628,8 +629,8 @@
     </div>
   </section>
 
+  <!-- Quests Sidebar Drawer -->
   <aside id="questDrawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-lg bg-slate-950/98 backdrop-blur-2xl border-l border-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-    <!-- Drawer Header -->
     <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
@@ -645,9 +646,7 @@
       </button>
     </div>
 
-    <!-- Missions Step-by-Step List -->
     <div class="p-5 overflow-y-auto flex-grow space-y-5 font-sans text-sm">
-      
       <!-- Quest 1 -->
       <div id="questCard-1" class="border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5">
         <div class="flex items-start justify-between gap-2">
@@ -797,10 +796,8 @@
           </ol>
         </div>
       </div>
-
     </div>
 
-    <!-- Drawer Footer -->
     <div class="p-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between">
       <span class="text-xs text-slate-400 font-mono">Stav: <strong id="missionsTotalProgress">0 / 6 splněno</strong></span>
       <button onclick="resetAllChallenges()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 transition">
@@ -809,6 +806,7 @@
     </div>
   </aside>
 
+  <!-- Cart Modal -->
   <div id="cartModal" class="fixed inset-0 z-50 modal-backdrop-custom hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
       
@@ -827,10 +825,8 @@
         </button>
       </div>
 
-      <!-- Items List -->
       <div id="cartItemsContainer" class="p-5 overflow-y-auto space-y-3 flex-grow max-h-96"></div>
 
-      <!-- Promo code input box -->
       <div class="px-5 py-3.5 bg-slate-950/90 border-t border-slate-800 flex gap-2">
         <input type="text" id="promoInput" placeholder="Zadejte promo kód (nápověda: zkus konzoli console.log(PROMO_CODES_DATABASE))" 
           class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white font-mono uppercase focus:outline-none focus:border-cyan-400">
@@ -839,7 +835,6 @@
         </button>
       </div>
 
-      <!-- Financial Totals -->
       <div class="p-5 border-t border-slate-800 bg-slate-950 flex flex-col gap-3 font-mono">
         <div class="space-y-1.5 text-xs text-slate-400">
           <div class="flex justify-between">
@@ -869,6 +864,7 @@
     </div>
   </div>
 
+  <!-- Reviews Modal -->
   <div id="reviewsModal" class="fixed inset-0 z-50 modal-backdrop-custom hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
       <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
@@ -896,6 +892,7 @@
     </div>
   </div>
 
+  <!-- Database Sheet Modal -->
   <div id="databaseSheetModal" class="fixed inset-0 z-50 modal-backdrop-custom hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-emerald-500/50 rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
       <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
@@ -942,7 +939,7 @@
               <th class="p-2.5">Role</th>
             </tr>
           </thead>
-          <tbody id="databaseTableBody" class="divide-y divide-slate-800/80 text-slate-300"></tbody>
+          <tbody id="databaseTableBody" class="divide-y border-slate-800/80 text-slate-300"></tbody>
         </table>
       </div>
 
@@ -955,6 +952,7 @@
     </div>
   </div>
 
+  <!-- Exploit Guide Modal -->
   <div id="exploitGuideModal" class="fixed inset-0 z-50 modal-backdrop-custom hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
       <div class="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-950">
@@ -1096,7 +1094,6 @@
       }
     ];
 
-    // Global variable accessible via DevTools Console: window.userAccountsDb
     window.userAccountsDb = [];
 
     const PRODUCTS = [
@@ -1162,14 +1159,12 @@
       }
     ];
 
-    // Global variable accessible via DevTools Console: window.PROMO_CODES_DATABASE
     window.PROMO_CODES_DATABASE = {
       "VIBE10": { discount: 0.10, desc: "10% sleva pro začátečníky" },
       "UCITEL100": { discount: 1.00, desc: "100% TAJNÁ SLEVA PRO PROFESORY" },
       "HACKER99": { discount: 0.99, desc: "99% sleva pro testery" }
     };
 
-    // Global variable accessible via DevTools Console: window.MASSIVE_REVIEWS_BALLAST
     window.MASSIVE_REVIEWS_BALLAST = {
       system_status: "NOMINAL",
       cluster_info: {
@@ -1281,7 +1276,7 @@
     }
 
     function switchGateMode(mode) {
-      const regForm = document.getElementById('gateRegisterForm');
+      const regScrollBox = document.getElementById('regFormScrollContainer');
       const loginForm = document.getElementById('gateLoginForm');
       const regBtn = document.getElementById('gateTabRegBtn');
       const loginBtn = document.getElementById('gateTabLoginBtn');
@@ -1289,12 +1284,12 @@
       if (errBox) errBox.classList.add('hidden');
 
       if (mode === 'register') {
-        regForm.classList.remove('hidden');
+        if (regScrollBox) regScrollBox.classList.remove('hidden');
         loginForm.classList.add('hidden');
         regBtn.className = "flex-1 py-2 rounded-lg font-bold bg-cyan-500 text-slate-950 transition";
         loginBtn.className = "flex-1 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition";
       } else {
-        regForm.classList.add('hidden');
+        if (regScrollBox) regScrollBox.classList.add('hidden');
         loginForm.classList.remove('hidden');
         loginBtn.className = "flex-1 py-2 rounded-lg font-bold bg-violet-600 text-white transition";
         regBtn.className = "flex-1 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition";
@@ -1479,7 +1474,7 @@
       document.body.appendChild(bullet);
 
       requestAnimationFrame(() => {
-        bullet.style.transform = `translate(${cartRect.left - rect.left}px,${cartRect.top - rect.top}px) scale(0.3)`;
+        bullet.style.transform = `translate(${cartRect.left - rect.left}px, ${cartRect.top - rect.top}px) scale(0.3)`;
         bullet.style.opacity = '0.2';
       });
 
@@ -1515,7 +1510,7 @@
       }
 
       updateCartBadge();
-      showToast("Zboží vloženo do košíku", `${product.title} (${manipulatedQty} ks) za${formatCurrency(manipulatedPrice)}`, "info");
+      showToast("Zboží vloženo do košíku", `${product.title} (${manipulatedQty} ks) za ${formatCurrency(manipulatedPrice)}`, "info");
       openCartModal();
     }
 
@@ -1550,7 +1545,8 @@
         row.innerHTML = `
           <div class="flex-grow">
             <div class="font-bold text-white flex items-center gap-2">
-              ${item.title}${isTampered ? '<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CENA MANIPULOVÁNA</span>' : ''}
+              ${item.title}
+              ${isTampered ? '<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CENA MANIPULOVÁNA</span>' : ''}
               ${isNegative ? '<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">ZÁPORNÝ POČET</span>' : ''}
             </div>
             <div class="text-xs text-slate-400 font-mono flex items-center gap-2 mt-1">
@@ -1559,165 +1555,411 @@
           </div>
 
           <div class="flex items-center gap-3">
-            <div class="flex items-center gap-1 bg-slate-900 border border-Tady je upravený kód registračního formuláře. Aby to pro studenty byla pořádná výzva a „byrokratický očistec“, přidal jsem do `<form id="gateRegisterForm">` celou sérii otravných a absurdních polí s povinným atributem `required`, včetně klikacích dotazů (radio buttony, checkboxy, selecty s nesmyslnými možnostmi a posuvník).
+            <div class="flex items-center gap-1 bg-slate-900 border border-slate-700 px-2 py-1 rounded-xl">
+              <span class="text-[10px] text-slate-500 font-mono">ks:</span>
+              <input type="number" value="${item.quantity}" 
+                class="w-14 bg-transparent text-white font-mono text-xs text-center focus:outline-none font-bold"
+                onchange="updateCartItemQty(${index}, this.value)">
+            </div>
+            <span class="w-28 text-right font-black font-mono ${itemTotal < 0 ? 'text-emerald-400' : 'text-cyan-400'}">
+              ${formatCurrency(itemTotal)}
+            </span>
+            <button onclick="removeCartItem(${index})" class="text-slate-500 hover:text-red-400 transition p-1.5 rounded-lg hover:bg-slate-900">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
 
-V souboru stačí nahradit původní blok `<form id="gateRegisterForm">...</form>` tímto kódem:
+      const discountAmount = subtotal * appliedDiscountRate;
+      const finalTotal = subtotal - discountAmount;
 
-```html
-      <!-- Registration Form (Absurdně dlouhý dotazník s required poli) -->
-      <form id="gateRegisterForm" onsubmit="handleGateRegister(event)" class="space-y-4 text-xs font-mono max-h-[55vh] overflow-y-auto pr-2">
+      document.getElementById('cartSubtotal').innerText = formatCurrency(subtotal);
+      document.getElementById('cartDiscount').innerText = `${Math.round(appliedDiscountRate * 100)} % ${appliedPromoCodeName ? `(${appliedPromoCodeName})` : ''}`;
+      document.getElementById('cartTotal').innerText = formatCurrency(finalTotal);
+    }
+
+    function updateCartItemQty(index, newQty) {
+      if (cart[index]) {
+        cart[index].quantity = parseInt(newQty) || 0;
+        renderCart();
+      }
+    }
+
+    function removeCartItem(index) {
+      cart.splice(index, 1);
+      updateCartBadge();
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      appliedDiscountRate = 0;
+      appliedPromoCodeName = null;
+      document.getElementById('activePromoBadge').innerText = "Žádný";
+      updateCartBadge();
+      renderCart();
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cartCountBadge');
+      const totalCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+      badge.innerText = totalCount;
+    }
+
+    function checkoutOrder() {
+      if (cart.length === 0) {
+        showToast("Prázdný košík", "Vložte nejprve zboží do košíku.", "error");
+        return;
+      }
+
+      let subtotal = 0;
+      let hasTamperedNotebook = false;
+      let hasNegativeMath = false;
+
+      cart.forEach(item => {
+        subtotal += (item.price * item.quantity);
+        if (item.id === 1 && item.price <= 10 && item.quantity > 0) {
+          hasTamperedNotebook = true;
+        }
+        if (item.quantity < 0) {
+          hasNegativeMath = true;
+        }
+      });
+
+      const finalTotal = subtotal - (subtotal * appliedDiscountRate);
+
+      if (finalTotal > userWallet) {
+        showToast("Nedostatek prostředků", `V peněžence máte ${formatCurrency(userWallet)}, ale objednávka činí ${formatCurrency(finalTotal)}. Zkuste cenu hacknout v DevTools!`, "error");
+        return;
+      }
+
+      userWallet -= finalTotal;
+      updateWalletDisplay();
+
+      if (hasTamperedNotebook) {
+        completeChallenge(1, "Úkol 1 Splněn! Koupil jsi notebook za symbolickou cenu přepisem DOM inputu v DevTools!");
+      }
+
+      if (hasNegativeMath && finalTotal < 0) {
+        completeChallenge(2, "Úkol 2 Splněn! E-shop ti vyplatil peníze za zápornou objednávku!");
+      }
+
+      if (appliedPromoCodeName === "UCITEL100" || appliedDiscountRate >= 1.0) {
+        completeChallenge(3, "Úkol 3 Splněn! Uplatnil jsi 100% tajný promo kód odhalený v konzoli!");
+      }
+
+      showToast("Objednávka dokončena!", `Zpracováno přímo v prohlížeči. Celkem: ${formatCurrency(finalTotal)}`, "success");
+      cart = [];
+      updateCartBadge();
+      closeCartModal();
+    }
+
+    function applyPromoCode() {
+      const input = document.getElementById('promoInput');
+      const code = input.value.trim().toUpperCase();
+
+      if (!code) return;
+
+      if (PROMO_CODES_DATABASE[code]) {
+        const promo = PROMO_CODES_DATABASE[code];
+        appliedDiscountRate = promo.discount;
+        appliedPromoCodeName = code;
+
+        document.getElementById('activePromoBadge').innerText = `${code} (-${Math.round(promo.discount * 100)}%)`;
+        showToast("Sleva aktivována!", `${promo.desc} aplikována na celou objednávku.`, "success");
+
+        if (code === "UCITEL100") {
+          completeChallenge(3, "Úkol 3 Splněn! Uplatnil jsi 100% slevu 'UCITEL100' zjištěnou v DevTools!");
+        }
+
+        renderCart();
+      } else {
+        showToast("Neplatný kód", `Kód "${code}" nebyl v databázi nalezen. Podívejte se do konzole na PROMO_CODES_DATABASE!`, "error");
+      }
+    }
+
+    /* =========================================================================
+       4. ADMIN STATUS, DATA LEAKS & DEVTOOLS HELPERS
+       ========================================================================= */
+
+    function checkAdminStatus() {
+      const isAdmin = localStorage.getItem('is_admin') === 'true';
+      const adminArea = document.getElementById('adminSecretArea');
+      const badge = document.getElementById('userRoleBadge');
+      const cardStatus = document.getElementById('roleCardStatus');
+      const dot = document.getElementById('roleStatusDot');
+
+      if (isAdmin) {
+        adminArea.classList.remove('hidden');
+        badge.innerText = "ROOT_ADMINISTRATOR";
+        badge.className = "text-red-400 font-black";
+        cardStatus.innerHTML = '<i class="fa-solid fa-crown text-amber-400"></i> Root Administrátor';
+        cardStatus.className = "text-red-400 font-black font-mono";
+        dot.className = "w-2.5 h-2.5 rounded-full bg-red-500 animate-ping";
+
+        completeChallenge(5, "Úkol 5 Splněn! Změnil jsi localStorage.is_admin na 'true' přes DevTools!");
+      } else {
+        adminArea.classList.add('hidden');
+        badge.innerText = "CUSTOMER";
+        badge.className = "text-cyan-300 font-bold";
+        cardStatus.innerHTML = '<i class="fa-solid fa-user-check text-xs"></i> Zákazník bez práv';
+        cardStatus.className = "text-cyan-400 font-bold font-mono";
+        dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse";
+      }
+    }
+
+    function lockAdmin() {
+      localStorage.setItem('is_admin', 'false');
+      checkAdminStatus();
+      showToast("Odhlášeno", "Byl jste vrácen do role běžného zákazníka.", "info");
+    }
+
+    function grantAdminBonus() {
+      userWallet += 100000;
+      updateWalletDisplay();
+      showToast("Admin Bonus", "Připsáno +100 000 Kč do klientské peněženky!", "success");
+    }
+
+    function openCustomerReviewsModal() {
+      const modal = document.getElementById('reviewsModal');
+      const list = document.getElementById('reviewsList');
+      list.innerHTML = '';
+
+      try {
+        window.fetch("/api/v2/customer-reviews").catch(() => {});
+      } catch(e) {}
+
+      console.warn("[SECURITY AUDIT] /api/v2/customer-reviews odeslal 184 KB surových dat včetně kreditních karet a hesel!");
+      console.log("Prozkoumejte surová data v objektu MASSIVE_REVIEWS_BALLAST:", MASSIVE_REVIEWS_BALLAST);
+
+      MASSIVE_REVIEWS_BALLAST.reviews.forEach(rev => {
+        const item = document.createElement('div');
+        item.className = "p-4 bg-slate-950 border border-slate-800 rounded-2xl space-y-2";
+
+        let stars = '';
+        for (let i = 0; i < rev.rating_stars; i++) stars += '<i class="fa-solid fa-star text-amber-400 text-xs"></i>';
+
+        item.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-white text-sm">${rev.author_display_name}</span>
+            <div class="flex gap-1">${stars}</div>
+          </div>
+          <p class="text-xs text-slate-300 italic">„${rev.comment}“</p>
+        `;
+        list.appendChild(item);
+      });
+
+      modal.classList.remove('hidden');
+      completeChallenge(4, "Úkol 4 Splněn! Otevřel jsi recenze s overfetched JSONem (prohlédni console/network)!");
+    }
+
+    function closeReviewsModal() {
+      document.getElementById('reviewsModal').classList.add('hidden');
+    }
+
+    function inspectReviewsDevToolsHint() {
+      closeReviewsModal();
+      toggleQuestDrawer();
+      const card = document.getElementById('questCard-4');
+      if (card) card.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openDatabaseSheetModal() {
+      renderDatabaseTable();
+      document.getElementById('databaseSheetModal').classList.remove('hidden');
+      completeChallenge(6, "Úkol 6 Splněn! Zobrazil jsi nešifrovanou Google Sheets databázi hesel!");
+    }
+
+    function closeDatabaseSheetModal() {
+      document.getElementById('databaseSheetModal').classList.add('hidden');
+    }
+
+    function renderDatabaseTable() {
+      const tbody = document.getElementById('databaseTableBody');
+      const search = (document.getElementById('dbSearchInput')?.value || '').toLowerCase();
+      tbody.innerHTML = '';
+
+      const filtered = userAccountsDb.filter(u => 
+        u.username.toLowerCase().includes(search) || 
+        u.password.toLowerCase().includes(search) ||
+        u.role.toLowerCase().includes(search)
+      );
+
+      document.getElementById('dbRecordCountBadge').innerText = `Záznamů: ${filtered.length}`;
+
+      filtered.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-800/40 transition";
         
-        <div class="p-2.5 rounded-xl bg-cyan-950/40 border border-cyan-500/20 text-slate-300 text-[11px] leading-relaxed">
-          <i class="fa-solid fa-circle-info text-cyan-400 mr-1"></i> Vyplňte všech <strong>14 povinných polí</strong> klientského auditu, nebo formulář v DevTools jednoduše smažte / vypněte validace.
-        </div>
+        tr.innerHTML = `
+          <td class="p-2.5 text-slate-400">${row.timestamp}</td>
+          <td class="p-2.5 font-bold text-cyan-300">${row.username}</td>
+          <td class="p-2.5 font-black text-amber-300 font-mono tracking-wider bg-amber-950/20 rounded">${row.password}</td>
+          <td class="p-2.5 text-rose-400 font-semibold">${row.audit}</td>
+          <td class="p-2.5 text-slate-400">${row.ip}</td>
+          <td class="p-2.5"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-bold">${row.role}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
 
-        <!-- Základní přihlašovací údaje -->
-        <div>
-          <label class="block text-slate-300 font-semibold mb-1">1. Fiktivní přezdívka *</label>
-          <div class="relative">
-            <i class="fa-solid fa-user absolute left-3.5 top-3 text-slate-500"></i>
-            <input type="text" id="gateRegUsername" required placeholder="např. neo_hacker" 
-              class="w-full bg-slate-950/90 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2 text-white text-xs focus:outline-none focus:border-cyan-400 font-mono">
-          </div>
-        </div>
+    /* =========================================================================
+       5. QUEST TRACKING & PROGRESS SYSTEM
+       ========================================================================= */
 
-        <div>
-          <label class="block text-slate-300 font-semibold mb-1">2. Zkušební heslo (min. 8 znaků) *</label>
-          <div class="relative">
-            <i class="fa-solid fa-key absolute left-3.5 top-3 text-amber-500"></i>
-            <input type="text" id="gateRegPassword" required minlength="8" placeholder="např. testovaciHeslo123" 
-              class="w-full bg-slate-950/90 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2 text-amber-300 font-bold text-xs focus:outline-none focus:border-amber-400 font-mono">
-          </div>
-        </div>
+    function toggleQuestDrawer() {
+      document.getElementById('questDrawer').classList.toggle('translate-x-full');
+    }
 
-        <!-- Osobní absurdní data -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-slate-300 font-semibold mb-1">3. Datum narození *</label>
-            <input type="date" required 
-              class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 text-xs focus:outline-none focus:border-cyan-400 font-mono">
-          </div>
-          <div>
-            <label class="block text-slate-300 font-semibold mb-1">4. Krevní skupina *</label>
-            <select required class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 text-xs focus:outline-none focus:border-cyan-400 font-mono">
-              <option value="">-- Vyberte skupinu --</option>
-              <option value="0-">0 Rh negativní</option>
-              <option value="0+">0 Rh pozitivní</option>
-              <option value="A+">A Rh pozitivní</option>
-              <option value="B+">B Rh pozitivní</option>
-              <option value="AB+">AB Rh pozitivní</option>
-              <option value="COFFEE">Čistý kofein / Yerba maté</option>
-            </select>
-          </div>
-        </div>
+    function completeChallenge(id, celebrationText) {
+      if (CHALLENGES[id] && !CHALLENGES[id].solved) {
+        CHALLENGES[id].solved = true;
+        
+        const badge = document.getElementById(`badge-${id}`);
+        const card = document.getElementById(`questCard-${id}`);
+        
+        if (badge) {
+          badge.innerText = "SPLNĚNO ✓";
+          badge.className = "text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold";
+        }
+        if (card) {
+          card.classList.remove('bg-slate-900/60', 'border-slate-800');
+          card.classList.add('bg-emerald-950/30', 'border-emerald-500/40');
+        }
 
-        <!-- Adresa a lokalita -->
-        <div>
-          <label class="block text-slate-300 font-semibold mb-1">5. Přesná adresa trvalého bydliště (ulice, č.p., PSČ) *</label>
-          <input type="text" required placeholder="např. Uhelný trh 42, 110 00 Praha 1" 
-            class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 text-xs focus:outline-none focus:border-cyan-400 font-mono">
-        </div>
+        updateOverallProgress();
+        showToast("🎯 MISE SPLNĚNA!", celebrationText, "success");
+        saveState();
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-slate-300 font-semibold mb-1">6. Požadovaná role *</label>
-            <select id="gateRegRole" required class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2 text-cyan-300 text-xs focus:outline-none focus:border-cyan-400 font-mono">
-              <option value="STUDENT">STUDENT (Základní přístup)</option>
-              <option value="UCITEL">UCITEL (Pedagogický dozor)</option>
-              <option value="PENTESTER">PENTESTER (Etický hacker)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-slate-300 font-semibold mb-1">7. Preferovaný textový editor *</label>
-            <select required class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 text-xs focus:outline-none focus:border-cyan-400 font-mono">
-              <option value="">-- Zvolte editor --</option>
-              <option value="vim">Vim (:wq! nebo nic)</option>
-              <option value="neovim">Neovim (Lua config master)</option>
-              <option value="emacs">Emacs (celý operační systém)</option>
-              <option value="nano">GNU Nano (chci jen odejít)</option>
-              <option value="notepad">Poznámkový blok (Notepad.exe)</option>
-            </select>
-          </div>
-        </div>
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+        }
+      }
+    }
 
-        <!-- Klikací otázky: Radio buttony -->
-        <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2">
-          <label class="block text-slate-300 font-semibold">8. Jste robot, kyborg nebo biologická jednotka? *</label>
-          <div class="space-y-1.5 text-slate-400 text-[11px]">
-            <label class="flex items-center gap-2 cursor-pointer hover:text-white">
-              <input type="radio" name="entityType" value="bio" required class="accent-cyan-400">
-              Běžný biologický homo sapiens
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer hover:text-white">
-              <input type="radio" name="entityType" value="cyborg" required class="accent-cyan-400">
-              Kyborg (mám aspoň chytré hodinky)
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer hover:text-white">
-              <input type="radio" name="entityType" value="ai" required class="accent-cyan-400">
-              Běžící LLM agent testující tento e-shop
-            </label>
-          </div>
-        </div>
+    function updateOverallProgress() {
+      const solvedCount = Object.values(CHALLENGES).filter(c => c.solved).length;
+      document.getElementById('completedBadge').innerText = `${solvedCount}/6`;
+      document.getElementById('heroMissionsBadge').innerText = `${solvedCount}/6`;
+      document.getElementById('missionsTotalProgress').innerText = `${solvedCount} / 6 splněno`;
 
-        <!-- Klikací otázky: Absurdní preference -->
-        <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2">
-          <label class="block text-slate-300 font-semibold">9. Odsazování kódu v klientských skriptech *</label>
-          <div class="grid grid-cols-2 gap-2 text-slate-400 text-[11px]">
-            <label class="flex items-center gap-2 cursor-pointer hover:text-white">
-              <input type="radio" name="indentType" value="spaces2" required class="accent-cyan-400">
-              2 mezery
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer hover:text-white">
-              <input type="radio" name="indentType" value="spaces4" required class="accent-cyan-400">
-              4 mezery
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer hover:text-white">
-              <input type="radio" name="indentType" value="tabs" required class="accent-cyan-400">
-              Skutečné Tabulátory
-            </label>
-            <label class="flex items-center gap-2 cursor-pointer hover:text-white">
-              <input type="radio" name="indentType" value="chaos" required class="accent-cyan-400">
-              Náhodný mix obojího
-            </label>
-          </div>
-        </div>
+      if (solvedCount === 6) {
+        setTimeout(() => {
+          showToast("🏆 VŠECH 6 MISÍ SPLNĚNO!", "Gratulujeme! Prokázal jsi vysokou zručnost v práci s browser DevTools a front-end architekturou.", "success");
+          if (typeof confetti === 'function') {
+            confetti({ particleCount: 220, spread: 130, origin: { y: 0.5 } });
+          }
+        }, 800);
+      }
+    }
 
-        <!-- Posuvník (Range) -->
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="text-slate-300 font-semibold">10. Úroveň kofeinové tolerance (0–100 %) *</label>
-            <span id="caffeineVal" class="text-cyan-400 font-bold text-[11px]">50 %</span>
-          </div>
-          <input type="range" min="0" max="100" value="50" required 
-            oninput="document.getElementById('caffeineVal').innerText = this.value + ' %'"
-            class="w-full accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer">
-        </div>
+    function resetAllChallenges() {
+      Object.keys(CHALLENGES).forEach(k => {
+        CHALLENGES[k].solved = false;
+        const badge = document.getElementById(`badge-${k}`);
+        const card = document.getElementById(`questCard-${k}`);
+        if (badge) {
+          badge.innerText = "ČEKÁ";
+          badge.className = "text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700";
+        }
+        if (card) {
+          card.className = "border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5";
+        }
+      });
 
-        <!-- Bezpečnostní otázka -->
-        <div>
-          <label class="block text-slate-300 font-semibold mb-1">11. Kontrolní otázka: Kolik bitů má jeden byte? (číselně) *</label>
-          <input type="number" required placeholder="8" min="8" max="8"
-            class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2 text-slate-200 text-xs focus:outline-none focus:border-cyan-400 font-mono">
-        </div>
+      userWallet = 10000;
+      localStorage.removeItem('is_admin');
+      localStorage.removeItem('active_user');
+      localStorage.removeItem('vibeshop_progress_v4_clean');
+      clearCart();
+      checkAdminStatus();
+      updateWalletDisplay();
+      updateOverallProgress();
+      renderProducts();
+      showGateWall();
+      showToast("Resetováno", "Všechny mise a parametry byly resetovány na výchozí hodnoty.", "info");
+    }
 
-        <!-- Povinné checkboxy (byrokracie) -->
-        <div class="space-y-2 pt-1 border-t border-slate-800/80 text-[11px] text-slate-400">
-          <label class="flex items-start gap-2 cursor-pointer hover:text-slate-200">
-            <input type="checkbox" required class="mt-0.5 accent-cyan-400">
-            <span>12. Potvrzuji, že nebudu otevírat klávesu F12 a podvádět klientskou validaci. *</span>
-          </label>
-          <label class="flex items-start gap-2 cursor-pointer hover:text-slate-200">
-            <input type="checkbox" required class="mt-0.5 accent-cyan-400">
-            <span>13. Souhlasím se zpracováním fiktivních dat na tomto počítači. *</span>
-          </label>
-          <label class="flex items-start gap-2 cursor-pointer hover:text-slate-200">
-            <input type="checkbox" required class="mt-0.5 accent-cyan-400">
-            <span>14. Beru na vědomí, že tento formulář je zbytečně dlouhý jen proto, abych ho v DevTools smazal. *</span>
-          </label>
-        </div>
+    function saveState() {
+      const progress = {};
+      Object.keys(CHALLENGES).forEach(k => {
+        progress[k] = CHALLENGES[k].solved;
+      });
+      localStorage.setItem('vibeshop_progress_v4_clean', JSON.stringify(progress));
+    }
 
-        <!-- Tlačítko k odeslání -->
-        <button type="submit" class="w-full py-3 mt-2 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-500 to-indigo-600 hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/25 transition transform active:scale-95 flex items-center justify-center gap-2">
-          <i class="fa-solid fa-cloud-arrow-up"></i> Vytvořit účet a vstoupit do obchodu
-        </button>
-      </form>
+    function loadSavedState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('vibeshop_progress_v4_clean'));
+        if (saved) {
+          Object.keys(saved).forEach(k => {
+            if (saved[k]) completeChallenge(k, `Mise ${k} byla obnovena z předchozí relace.`);
+          });
+        }
+      } catch (e) {}
+    }
+
+    function openCartModal() {
+      renderCart();
+      document.getElementById('cartModal').classList.remove('hidden');
+    }
+
+    function closeCartModal() {
+      document.getElementById('cartModal').classList.add('hidden');
+    }
+
+    function openExploitGuide() {
+      document.getElementById('exploitGuideModal').classList.remove('hidden');
+    }
+
+    function closeExploitGuide() {
+      document.getElementById('exploitGuideModal').classList.add('hidden');
+    }
+
+    function updateWalletDisplay() {
+      const el = document.getElementById('userWalletDisplay');
+      el.innerHTML = `${formatCurrency(userWallet)}`;
+      if (userWallet < 0) {
+        el.className = "text-4xl sm:text-5xl font-black font-mono text-red-400 tracking-tight flex items-baseline gap-2 mb-6";
+      } else {
+        el.className = "text-4xl sm:text-5xl font-black font-mono text-emerald-400 tracking-tight flex items-baseline gap-2 mb-6";
+      }
+    }
+
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'CZK', maximumFractionDigits: 0 }).format(amount);
+    }
+
+    function showToast(title, message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      
+      const borderCol = type === 'success' ? 'border-emerald-500' : type === 'error' ? 'border-red-500' : 'border-cyan-500';
+      const icon = type === 'success' ? 'fa-circle-check text-emerald-400' : type === 'error' ? 'fa-circle-xmark text-red-400' : 'fa-info-circle text-cyan-400';
+
+      toast.className = `pointer-events-auto bg-slate-900/95 border-l-4 ${borderCol} border-t border-r border-b border-slate-800 p-4 rounded-2xl shadow-2xl max-w-sm flex items-start gap-3.5 transform translate-y-4 opacity-0 transition-all duration-300`;
+
+      toast.innerHTML = `
+        <i class="fa-solid ${icon} text-lg mt-0.5"></i>
+        <div class="flex-grow">
+          <h4 class="font-bold text-white text-sm">${title}</h4>
+          <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">${message}</p>
+        </div>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => toast.remove(), 350);
+      }, 5500);
+    }
+  </script>
+</body>
+</html>
