@@ -57,7 +57,79 @@
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased">
+<!-- Briefing Modal (Úvodní slovo pro studenty) -->
+  <div id="briefingModal" class="fixed inset-0 z-[60] bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-sky-500/40 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] font-sans">
+      
+      <!-- Header -->
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950 shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-lg border border-sky-500/20">
+            <i class="fa-solid fa-user-secret"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-base">Hacker Lab Briefing: Vítej ve VibeShopu!</h3>
+            <p class="text-xs text-slate-400 font-mono">Kybernetické cvičení pro střední školy (EU Code Week)</p>
+          </div>
+        </div>
+        <button onclick="closeBriefingModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
 
+      <!-- Body / Instrukce -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+        
+        <div class="p-3.5 rounded-2xl bg-sky-950/30 border border-sky-500/30 text-slate-200">
+          <strong class="text-sky-300 block font-bold mb-1">🎯 Tvůj cíl v této hodině:</strong>
+          Tento e-shop byl naprogramován bezpečně asi jako papírová krabice v dešti. Stal ses etickým hackerem (pentesterem) a tvým úkolem je najít a zneužít <strong>10 zásadních architektonických chyb</strong> přímo z tvého prohlížeče.
+        </div>
+
+        <div class="space-y-3 font-mono text-xs">
+          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-sky-400 font-bold flex items-center justify-center shrink-0">1</div>
+            <div>
+              <strong class="text-white block font-bold mb-0.5">Tvůj hlavní nástroj je klávesa F12</strong>
+              Stiskni na klávesnici <kbd class="code-tag">F12</kbd> (případně pravé tlačítko myši &rarr; <em>Prozkoumat / Inspect</em>). Otevřou se vývojářské nástroje (DevTools). Žádné externí programy nepotřebuješ.
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-sky-400 font-bold flex items-center justify-center shrink-0">2</div>
+            <div>
+              <strong class="text-white block font-bold mb-0.5">Sleduj zadání v panelu „Mise“</strong>
+              V pravém horním rohu klikni na tlačítko <strong>Mise (0/10)</strong>. Každá karta obsahuje přesný návod, jak chybu vyzkoušet – od přepisu ceny v DOMu až po manipulaci se systémovým časem.
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex gap-3">
+            <div class="w-6 h-6 rounded-full bg-slate-800 text-sky-400 font-bold flex items-center justify-center shrink-0">3</div>
+            <div>
+              <strong class="text-white block font-bold mb-0.5">Otravná registrace na začátku?</strong>
+              Úvodní formulář má 15 polí. Nemusíš ho vyplňovat – buď najdi uniklé heslo v konzoli (<code class="code-tag">console.table(userAccountsDb)</code>), nebo celou bránu prostě smaž v záložce <em>Elements</em>!
+            </div>
+          </div>
+        </div>
+
+        <div class="text-[11px] text-slate-400 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+          💡 <strong>Mobilní telefon?</strong> Pokud jsi na mobilu, v pravém dolním rohu najdeš ikonu ozubeného kola. Klepnutím na ni otevřeš plnohodnotné DevTools přímo na dotykovém displeji.
+        </div>
+
+      </div>
+
+      <!-- Footer CTA -->
+      <div class="p-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between shrink-0">
+        <label class="flex items-center gap-2 text-xs text-slate-400 cursor-pointer font-mono">
+          <input type="checkbox" id="dontShowBriefingAgain" class="rounded bg-slate-900 border-slate-700 text-sky-500">
+          <span>Příště už nezobrazovat</span>
+        </label>
+        <button onclick="startLabBriefing()" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold rounded-xl text-xs font-mono uppercase tracking-wider transition shadow-lg shadow-sky-500/20">
+          Jdu na to (Spustit lab) &rarr;
+        </button>
+      </div>
+
+    </div>
+  </div>
   <!-- Auth Gate Wall -->
   <div id="authGateWall" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-md overflow-y-auto">
     <div id="gateCardContainer" class="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative my-8 max-h-[90vh] flex flex-col">
@@ -198,7 +270,10 @@
           <span id="userTierBadge" class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono">tier: standard</span>
           <button onclick="showGateWall()" title="Odhlásit" class="hover:text-red-400 ml-1"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
-
+<button onclick="openBriefingModal()" title="Úvodní instrukce k labu" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono">
+  <i class="fa-solid fa-circle-question text-sky-400"></i>
+  <span class="hidden md:inline">Instrukce</span>
+</button>
         <button id="cartNavbarBtn" onclick="openCartModal()" class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs">
           <i class="fa-solid fa-basket-shopping"></i>
           <span>Košík</span>
@@ -1043,6 +1118,29 @@
       c.appendChild(t);
       setTimeout(() => t.remove(), 4000);
     }
+    function openBriefingModal() {
+  document.getElementById('briefingModal').classList.remove('hidden');
+}
+
+function closeBriefingModal() {
+  document.getElementById('briefingModal').classList.add('hidden');
+}
+
+function startLabBriefing() {
+  const dontShow = document.getElementById('dontShowBriefingAgain')?.checked;
+  if (dontShow) {
+    localStorage.setItem('vibeshop_briefing_seen', 'true');
+  }
+  closeBriefingModal();
+}
+
+// Zobrazit automaticky při prvním načtení stránky
+window.addEventListener('DOMContentLoaded', () => {
+  const seen = localStorage.getItem('vibeshop_briefing_seen');
+  if (!seen) {
+    openBriefingModal();
+  }
+});
   </script>
 </body>
 </html>
