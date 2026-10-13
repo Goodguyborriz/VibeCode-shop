@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="cs" class="scroll-smooth">
+<html lang="cs">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VibeShop – Vibecoded Edition (Student Hacker Lab)</title>
+  <title>VibeShop – Student Hacker Lab</title>
 
-  <!-- Tailwind CSS CDN -->
+  <!-- PWA Settings -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- Tailwind CSS & Font Awesome -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <script>
@@ -21,32 +20,16 @@
       darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            vibepurple: '#8b5cf6',
-            vibedark: '#070a13',
-            vibeaccent: '#06b6d4',
-            cyberpink: '#f43f5e',
-          },
-          animation: {
-            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'float 3s ease-in-out infinite',
-            'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
-          },
           keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-8px)' },
-            },
             shake: {
               '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
               '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
               '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
               '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
             }
+          },
+          animation: {
+            shake: 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
           }
         }
       }
@@ -54,1161 +37,393 @@
   </script>
 
   <style>
-    ::-webkit-scrollbar { width: 7px; height: 7px; }
-    ::-webkit-scrollbar-track { background: #070a13; }
-    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
-
-    .glass-panel {
-      background: rgba(15, 23, 42, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .glass-card {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.85) 100%);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(148, 163, 184, 0.12);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .glass-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(6, 182, 212, 0.45);
-      box-shadow: 0 15px 35px -10px rgba(6, 182, 212, 0.25);
-    }
-
     .flying-bullet {
       position: fixed;
       pointer-events: none;
       z-index: 9999;
       border-radius: 50%;
-      background: radial-gradient(circle, #06b6d4 0%, #8b5cf6 100%);
-      box-shadow: 0 0 25px #06b6d4, 0 0 45px #8b5cf6;
-      transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+      background: #38bdf8;
+      box-shadow: 0 0 15px #38bdf8;
+      transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     }
-
-    .modal-backdrop-custom {
-      backdrop-filter: blur(14px);
-      background-color: rgba(7, 10, 19, 0.9);
-    }
-
     .code-tag {
-      background: #0f172a;
+      background: #1e293b;
       border: 1px solid #334155;
-      padding: 2px 6px;
-      border-radius: 6px;
-      font-family: 'JetBrains Mono', monospace;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-family: monospace;
       color: #38bdf8;
     }
   </style>
 </head>
-<body class="bg-vibedark text-slate-100 font-sans min-h-screen flex flex-col selection:bg-cyan-400 selection:text-black antialiased relative overflow-x-hidden">
-
-  <!-- Ambient light blobs -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-    <div class="absolute -top-40 -left-40 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] animate-pulse-slow"></div>
-    <div class="absolute top-1/3 -right-40 w-[30rem] h-[30rem] bg-violet-600/15 rounded-full blur-[140px] animate-float"></div>
-    <div class="absolute -bottom-40 left-1/3 w-[36rem] h-[36rem] bg-indigo-600/10 rounded-full blur-[160px]"></div>
-  </div>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased">
 
   <!-- Auth Gate Wall -->
-  <div id="authGateWall" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-vibedark/95 backdrop-blur-2xl overflow-y-auto">
-    <div id="gateCardContainer" class="w-full max-w-2xl glass-panel border border-cyan-500/40 rounded-3xl p-6 sm:p-9 shadow-2xl relative overflow-hidden my-8 transition-transform duration-200 max-h-[92vh] flex flex-col">
+  <div id="authGateWall" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-md overflow-y-auto">
+    <div id="gateCardContainer" class="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative my-8 max-h-[90vh] flex flex-col">
       
-      <div class="absolute -right-12 -top-12 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
-      <!-- Header & Brand -->
-      <div class="text-center space-y-3 mb-4 shrink-0">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
-          <i class="fa-solid fa-lock text-cyan-400"></i> VibeCloud Auth™ Gatekeeper
-        </div>
-        <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
-          Vítejte ve <span class="bg-gradient-to-r from-cyan-400 via-indigo-300 to-violet-400 bg-clip-text text-transparent">VibeShopu</span>
-        </h1>
-        <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
-          Před vstupem je nutné projít standardním bezpečnostním dotazníkem klientské validace.
-        </p>
-      </div>
-
-      <!-- Pedagogical Safety Disclaimer -->
-      <div class="p-3 rounded-2xl bg-amber-950/40 border border-amber-500/40 text-amber-200 text-xs flex items-start gap-3 mb-4 shrink-0">
-        <i class="fa-solid fa-shield-halved text-amber-400 text-lg mt-0.5 shrink-0"></i>
-        <div class="leading-relaxed">
-          <strong class="font-bold text-amber-300 block mb-0.5">⚠️ Školní kybernetické cvičení:</strong>
-          Zadávejte <strong>výhradně fiktivní údaje</strong>. Povinná pole kontroluje klientský prohlížeč.
-        </div>
+      <div class="text-center mb-4 shrink-0">
+        <h1 class="text-2xl font-bold text-white tracking-tight">VibeShop Security Gate</h1>
+        <p class="text-xs text-slate-400 mt-1">Školní cvičení: Zadávejte výhradně fiktivní údaje.</p>
       </div>
 
       <!-- Tab Switcher -->
-      <div class="flex bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs font-mono mb-4 shrink-0">
-        <button id="gateTabRegBtn" onclick="switchGateMode('register')" class="flex-1 py-2 rounded-lg font-bold bg-cyan-500 text-slate-950 transition">
-          <i class="fa-solid fa-user-plus mr-1.5"></i> 1. Úmorná Registrace
+      <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-mono mb-4 shrink-0">
+        <button id="gateTabRegBtn" onclick="switchGateMode('register')" class="flex-1 py-2 rounded-lg font-bold bg-sky-500 text-slate-950 transition">
+          1. Registrace (15 polí)
         </button>
         <button id="gateTabLoginBtn" onclick="switchGateMode('login')" class="flex-1 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition">
-          <i class="fa-solid fa-right-to-bracket mr-1.5"></i> 2. Rychlé Přihlášení
+          2. Rychlé Přihlášení
         </button>
       </div>
 
-      <!-- Registration Form (Scrollable Container) -->
-      <div id="regFormScrollContainer" class="overflow-y-auto pr-1 flex-grow">
+      <!-- Registration Form -->
+      <div id="regFormScrollContainer" class="overflow-y-auto pr-1 flex-grow space-y-4">
         <form id="gateRegisterForm" onsubmit="handleGateRegister(event)" class="space-y-4 text-xs font-mono pb-2">
           
-          <div class="p-3 bg-cyan-950/30 border border-cyan-800/40 rounded-xl space-y-3">
-            <span class="text-cyan-400 font-bold block uppercase tracking-wider text-[11px]">
-              <i class="fa-solid fa-id-badge mr-1"></i> I. Základní identifikační údaje
-            </span>
-            
+          <div class="space-y-3 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 font-bold block uppercase text-[10px]">Identifikace</span>
             <div>
-              <label class="block text-slate-300 font-semibold mb-1">Fiktivní login / přezdívka: <span class="text-rose-400">*</span></label>
-              <div class="relative">
-                <i class="fa-solid fa-user absolute left-3.5 top-3 text-slate-500"></i>
-                <input type="text" id="gateRegUsername" required placeholder="např. tomas_1b" 
-                  class="w-full bg-slate-950/90 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-400 font-mono">
-              </div>
+              <label class="block text-slate-300 mb-1">Přezdívka: *</label>
+              <input type="text" id="gateRegUsername" required placeholder="tomas_1b" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white">
             </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-slate-300 font-semibold mb-1">Datum narození: <span class="text-rose-400">*</span></label>
-                <input type="date" required 
-                  class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-cyan-400 font-mono">
-              </div>
-              <div>
-                <label class="block text-slate-300 font-semibold mb-1">Fiktivní Rodné číslo: <span class="text-rose-400">*</span></label>
-                <input type="text" required placeholder="060412/1234" 
-                  class="w-full bg-slate-950/90 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:outline-none focus:border-cyan-400 font-mono">
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-slate-300 font-semibold mb-1">Zkušební heslo (v plaintextu): <span class="text-rose-400">*</span></label>
-              <div class="relative">
-                <i class="fa-solid fa-key absolute left-3.5 top-3 text-amber-500"></i>
-                <input type="text" id="gateRegPassword" required placeholder="např. test1234" 
-                  class="w-full bg-slate-950/90 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-amber-300 font-bold text-xs focus:outline-none focus:border-amber-400 font-mono">
-              </div>
-            </div>
-          </div>
-
-          <div class="p-3 bg-slate-950/50 border border-slate-800 rounded-xl space-y-3">
-            <span class="text-slate-300 font-bold block uppercase tracking-wider text-[11px]">
-              <i class="fa-solid fa-map-location-dot mr-1 text-cyan-400"></i> II. Bydliště a doručovací adresa
-            </span>
-
-            <div class="grid grid-cols-3 gap-2">
-              <div class="col-span-2">
-                <label class="block text-slate-400 mb-1">Ulice a číslo popisné: <span class="text-rose-400">*</span></label>
-                <input type="text" required placeholder="Vymyšlená 42" 
-                  class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none focus:border-cyan-400">
-              </div>
-              <div>
-                <label class="block text-slate-400 mb-1">PSČ: <span class="text-rose-400">*</span></label>
-                <input type="text" required placeholder="170 00" 
-                  class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none focus:border-cyan-400">
-              </div>
-            </div>
-
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-slate-400 mb-1">Město: <span class="text-rose-400">*</span></label>
-                <input type="text" required placeholder="Praha" 
-                  class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none focus:border-cyan-400">
+                <label class="block text-slate-300 mb-1">Datum narození: *</label>
+                <input type="date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">
               </div>
               <div>
-                <label class="block text-slate-400 mb-1">Patro a číslo dveří: <span class="text-rose-400">*</span></label>
-                <input type="text" required placeholder="3. patro, dveře 12" 
-                  class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none focus:border-cyan-400">
+                <label class="block text-slate-300 mb-1">Fiktivní RČ: *</label>
+                <input type="text" required placeholder="060412/1234" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white">
               </div>
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">Heslo (v plaintextu): *</label>
+              <input type="text" id="gateRegPassword" required placeholder="test1234" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-amber-300 font-bold">
             </div>
           </div>
 
-          <div class="p-3 bg-violet-950/20 border border-violet-800/40 rounded-xl space-y-3">
-            <span class="text-violet-300 font-bold block uppercase tracking-wider text-[11px]">
-              <i class="fa-solid fa-clipboard-question mr-1 text-violet-400"></i> III. Absurdní povinné dotazy
-            </span>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="space-y-3 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80">
+            <span class="text-slate-400 font-bold block uppercase text-[10px]">Absurdní dotazník</span>
+            <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-slate-400 mb-1">Krevní skupina a Rh faktor: <span class="text-rose-400">*</span></label>
-                <select required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs focus:outline-none focus:border-violet-400">
-                  <option value="">-- Zvolte krevní skupinu --</option>
-                  <option value="A+">A (Rh+)</option>
-                  <option value="A-">A (Rh-)</option>
-                  <option value="B+">B (Rh+)</option>
-                  <option value="B-">B (Rh-)</option>
-                  <option value="AB+">AB (Rh+)</option>
-                  <option value="AB-">AB (Rh-)</option>
-                  <option value="0+">0 (Rh+)</option>
-                  <option value="0-">0 (Rh-)</option>
-                  <option value="SYNTHETIC">Syntetická / Robotická emulze</option>
+                <label class="block text-slate-400 mb-1">Krevní skupina: *</label>
+                <select required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-white">
+                  <option value="">-- Vyberte --</option>
+                  <option value="A+">A+</option>
+                  <option value="0+">0+</option>
+                  <option value="ROBOT">Syntetická emulze</option>
                 </select>
               </div>
-
               <div>
-                <label class="block text-slate-400 mb-1">Barva očí: <span class="text-rose-400">*</span></label>
-                <select required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs focus:outline-none focus:border-violet-400">
-                  <option value="">-- Zvolte barvu očí --</option>
-                  <option value="modra">Modrá</option>
-                  <option value="hneda">Hnědá</option>
-                  <option value="zelena">Zelená</option>
-                  <option value="seda">Šedá</option>
-                  <option value="rgb">RGB Podsvícená (Gamer)</option>
+                <label class="block text-slate-400 mb-1">Rozumíte binárce? *</label>
+                <select required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-white">
+                  <option value="">-- Vyberte --</option>
+                  <option value="0">00 (Ne)</option>
+                  <option value="1">11 (Ano)</option>
                 </select>
               </div>
             </div>
-
             <div>
-              <label class="block text-slate-300 mb-1.5">Rozumíte binární soustavě? <span class="text-rose-400">*</span></label>
-              <div class="grid grid-cols-3 gap-2">
-                <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer hover:border-violet-500">
-                  <input type="radio" name="binaryKnowledge" value="00" required class="text-violet-500">
-                  <span class="text-[11px] text-slate-300">00 (Vůbec)</span>
-                </label>
-                <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer hover:border-violet-500">
-                  <input type="radio" name="binaryKnowledge" value="01" required class="text-violet-500">
-                  <span class="text-[11px] text-slate-300">01 (Trochu)</span>
-                </label>
-                <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer hover:border-violet-500">
-                  <input type="radio" name="binaryKnowledge" value="11" required class="text-violet-500">
-                  <span class="text-[11px] text-slate-300">11 (Plynule)</span>
-                </label>
+              <label class="block text-slate-400 mb-1">Zadní vrátka v kódu (backdoor): *</label>
+              <div class="flex gap-4">
+                <label><input type="radio" name="backdoor" required> Ano</label>
+                <label><input type="radio" name="backdoor" required> Ne</label>
               </div>
             </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-slate-400 mb-1">Počet vypitých káv/čajů za život: <span class="text-rose-400">*</span></label>
-                <input type="number" required min="0" placeholder="např. 1420" 
-                  class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none focus:border-violet-400">
-              </div>
-              <div>
-                <label class="block text-slate-400 mb-1">Oblíbená klávesová zkratka: <span class="text-rose-400">*</span></label>
-                <select required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-white text-xs focus:outline-none focus:border-violet-400">
-                  <option value="">-- Vyberte zkratku --</option>
-                  <option value="ctrl_c">Ctrl + C / Ctrl + V</option>
-                  <option value="ctrl_z">Ctrl + Z (Záchrana života)</option>
-                  <option value="alt_f4">Alt + F4</option>
-                  <option value="f12">F12 (Inspekce kódu)</option>
-                </select>
-              </div>
-            </div>
-
             <div>
-              <label class="block text-slate-300 mb-1.5">Máte ve svých aplikacích zadní vrátka (backdoor)? <span class="text-rose-400">*</span></label>
-              <div class="flex gap-4 bg-slate-900 p-2 rounded-lg border border-slate-800">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="backdoorPresence" value="yes" required>
-                  <span class="text-slate-300">Ano (jen pro kamarády)</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="radio" name="backdoorPresence" value="no" required>
-                  <span class="text-slate-300">Nikdy (čistý kód)</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-slate-300 font-semibold mb-1">Požadovaná role:</label>
-              <select id="gateRegRole" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-cyan-300 text-xs focus:outline-none focus:border-cyan-400 font-mono">
-                <option value="STUDENT">STUDENT (Základní přístup)</option>
-                <option value="UCITEL">UCITEL (Pedagogický dozor)</option>
-                <option value="PENTESTER">PENTESTER (Etický hacker)</option>
+              <label class="block text-slate-400 mb-1">Požadovaná role:</label>
+              <select id="gateRegRole" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-sky-400">
+                <option value="STUDENT">STUDENT</option>
+                <option value="UCITEL">UCITEL</option>
+                <option value="PENTESTER">PENTESTER</option>
               </select>
             </div>
           </div>
 
-          <div class="p-3 bg-slate-950/70 border border-slate-800 rounded-xl space-y-2 text-[11px] text-slate-400">
-            <span class="text-amber-400 font-bold block uppercase text-[10px]">
-              <i class="fa-solid fa-scale-balanced mr-1"></i> IV. Povinné právní a absurdní souhlasy
-            </span>
-
-            <label class="flex items-start gap-2.5 cursor-pointer">
-              <input type="checkbox" required class="mt-0.5 rounded text-cyan-500 shrink-0">
-              <span>Souhlasím se zpracováním fiktivního rodokmenu pro účely školního serveru. <span class="text-rose-400">*</span></span>
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 space-y-1.5 text-[11px] text-slate-400">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" required>
+              <span>Souhlasím se zpracováním fiktivních údajů *</span>
             </label>
-
-            <label class="flex items-start gap-2.5 cursor-pointer">
-              <input type="checkbox" required class="mt-0.5 rounded text-cyan-500 shrink-0">
-              <span>Zříkám se práva na spánek v případě nočního hackování CSS gridu a flexboxu. <span class="text-rose-400">*</span></span>
-            </label>
-
-            <label class="flex items-start gap-2.5 cursor-pointer">
-              <input type="checkbox" required class="mt-0.5 rounded text-cyan-500 shrink-0">
-              <span>Čestně prohlašuji, že nejsem robot, ani se nesnažím tuto stránku smazat přes F12. <span class="text-rose-400">*</span></span>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" required>
+              <span>Čestně prohlašuji, že tuto bránu nesmažu přes F12 *</span>
             </label>
           </div>
 
-          <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-500 to-indigo-600 hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/25 transition transform active:scale-95 flex items-center justify-center gap-2">
-            <i class="fa-solid fa-cloud-arrow-up"></i> Odeslat všech 15 polí a vstoupit
+          <button type="submit" class="w-full py-3 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition">
+            Odeslat dotazník a vstoupit
           </button>
         </form>
       </div>
 
-      <!-- Login Form with Strict Verification -->
+      <!-- Login Form -->
       <form id="gateLoginForm" onsubmit="handleGateLogin(event)" class="space-y-4 text-xs font-mono hidden shrink-0 my-auto">
-        <div id="loginErrorMessage" class="hidden p-3 rounded-xl bg-red-950/70 border border-red-500/60 text-red-200 text-xs flex items-start gap-2.5">
-          <i class="fa-solid fa-circle-exclamation text-red-400 text-base mt-0.5 shrink-0"></i>
-          <div>
-            <strong class="font-bold text-red-300 block">PŘÍSTUP ODEPŘEN:</strong>
-            <span id="loginErrorDetail">Chybné uživatelské jméno nebo heslo!</span>
-          </div>
+        <div id="loginErrorMessage" class="hidden p-3 rounded-xl bg-red-950 border border-red-700 text-red-200">
+          Chybné přihlašovací jméno nebo heslo!
         </div>
-
         <div>
-          <label class="block text-slate-300 font-semibold mb-1">Uživatelské jméno:</label>
-          <div class="relative">
-            <i class="fa-solid fa-user absolute left-3.5 top-3 text-slate-500"></i>
-            <input type="text" id="gateLoginUsername" required placeholder="např. matikar_josef@skola.cz" 
-              class="w-full bg-slate-950/90 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-400 font-mono">
-          </div>
+          <label class="block text-slate-300 mb-1">Uživatel:</label>
+          <input type="text" id="gateLoginUsername" required placeholder="matikar_josef@skola.cz" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
         </div>
-
         <div>
-          <label class="block text-slate-300 font-semibold mb-1">Heslo k účtu:</label>
-          <div class="relative">
-            <i class="fa-solid fa-lock absolute left-3.5 top-3 text-slate-500"></i>
-            <input type="password" id="gateLoginPassword" required placeholder="••••••••" 
-              class="w-full bg-slate-950/90 border border-slate-700 rounded-xl pl-10 pr-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-cyan-400 font-mono">
-          </div>
+          <label class="block text-slate-300 mb-1">Heslo:</label>
+          <input type="password" id="gateLoginPassword" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white">
         </div>
-
-        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-600 hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider transition transform active:scale-95 shadow-lg shadow-violet-600/30 flex items-center justify-center gap-2">
-          <i class="fa-solid fa-right-to-bracket"></i> Ověřit přihlášení a vstoupit
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition">
+          Přihlásit se
         </button>
       </form>
 
-      <!-- Hacker Tip regarding DevTools Inspect for Gate -->
-      <div class="mt-3 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400 font-mono leading-relaxed bg-slate-950/60 p-3 rounded-xl border border-slate-800 shrink-0">
-        <span class="text-amber-400 font-bold block mb-1">
-          <i class="fa-solid fa-terminal mr-1"></i> Tip pro etické hackery (DevTools Bypass):
-        </span>
-        Tento otravný formulář nemusíte vyplňovat. Stiskněte <kbd class="code-tag">F12</kbd> &rarr; záložka <strong>Elements</strong> &rarr; najděte tag <code class="code-tag">&lt;div id="authGateWall"&gt;</code> a stiskněte klávesu <kbd class="code-tag">Delete</kbd>! Nebo v konzoli zadejte <code class="code-tag">console.table(userAccountsDb)</code> a použijte libovolný uniklý účet v záložce <em>Rychlé Přihlášení</em>.
-      </div>
-
-    </div>
-  </div>
-
-  <div class="bg-gradient-to-r from-violet-950 via-slate-900 to-indigo-950 border-b border-violet-800/40 text-xs py-2 px-4 relative z-30">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-center sm:text-left">
-      <div class="flex items-center gap-2 mx-auto sm:mx-0">
-        <span class="inline-flex items-center gap-1.5 bg-violet-500/20 text-violet-300 px-3 py-0.5 rounded-full font-mono text-[11px] border border-violet-500/30">
-          <i class="fa-solid fa-skull text-xs text-rose-400"></i> Pure DevTools Hacker Edition
-        </span>
-        <span class="text-slate-300 hidden md:inline text-xs">
-          Žádná cheat tlačítka. Všechny mise se plní výhradně přes reálný DevTools (F12) ve vašem prohlížeči!
-        </span>
-      </div>
-      <div class="flex items-center gap-3 mx-auto sm:mx-0 text-xs">
-        <button onclick="openExploitGuide()" class="text-emerald-400 hover:text-emerald-300 font-semibold underline underline-offset-4 transition">
-          <i class="fa-solid fa-book-open mr-1"></i> Teoretický manuál architektury
-        </button>
+      <!-- DevTools hint footer -->
+      <div class="mt-3 pt-3 border-t border-slate-800 text-[11px] text-slate-400 font-mono">
+        <span class="text-amber-400 font-bold">Bypass:</span> Stiskněte <kbd class="code-tag">F12</kbd> &rarr; smažte element <code class="code-tag">&lt;div id="authGateWall"&gt;</code>, nebo zadejte <code class="code-tag">console.table(userAccountsDb)</code>.
       </div>
     </div>
   </div>
 
-  <!-- Navigation Bar -->
-  <header class="sticky top-0 z-40 glass-panel border-b border-slate-800/90 shadow-2xl">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-3">
-      
-      <!-- Brand Logo -->
-      <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-        <div class="relative">
-          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-cyan-500/25 group-hover:scale-105 transition duration-300">
-            <i class="fa-solid fa-bolt text-slate-950 font-black text-xl"></i>
-          </div>
-          <span class="absolute -top-1 -right-1 flex h-3 w-3">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
-          </span>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-black text-xl tracking-tight bg-gradient-to-r from-white via-cyan-100 to-slate-300 bg-clip-text text-transparent">
-              VibeShop
-            </span>
-            <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
-              DevTools-Only
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-400 leading-none font-mono">100% Client-Side Architecture</p>
-        </div>
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <i class="fa-solid fa-terminal text-sky-400 text-lg"></i>
+        <span class="font-bold tracking-tight text-white">VibeShop</span>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">Lab</span>
       </div>
 
-      <!-- Action Controls -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        
-        <!-- Live Quest tracker toggle -->
-        <button id="questBtn" onclick="toggleQuestDrawer()" class="relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 hover:bg-cyan-900/40 hover:border-cyan-400 transition text-sm font-semibold shadow-lg shadow-cyan-950/40 group">
-          <i class="fa-solid fa-flag-checkered text-cyan-400 group-hover:rotate-12 transition"></i>
-          <span class="hidden md:inline">Hacker Mise</span>
-          <span id="completedBadge" class="bg-cyan-400 text-slate-950 text-xs px-2 py-0.5 rounded-full font-black ml-1">0/6</span>
+      <div class="flex items-center gap-3">
+        <!-- Missions button -->
+        <button onclick="toggleQuestDrawer()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-mono">
+          <i class="fa-solid fa-list-check text-sky-400"></i>
+          <span>Mise</span>
+          <span id="completedBadge" class="bg-sky-500 text-slate-950 text-[10px] px-1.5 py-0.2 rounded font-bold">0/6</span>
         </button>
 
-        <!-- User Profile Status & Logout -->
-        <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl text-xs font-mono">
-          <div class="text-left hidden lg:block leading-tight">
-            <span class="text-slate-400 text-[10px] block">Přihlášen jako:</span>
-            <span id="activeUserNavbarName" class="text-cyan-300 font-bold truncate max-w-[120px] inline-block">Host</span>
-          </div>
-          <button onclick="showGateWall()" title="Odhlásit a zamknout" class="p-1.5 rounded-lg bg-slate-800 hover:bg-red-950 hover:text-red-400 text-slate-400 transition">
-            <i class="fa-solid fa-right-from-bracket"></i>
-          </button>
+        <!-- User info -->
+        <div class="hidden sm:flex items-center gap-2 bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-400">
+          <span id="activeUserNavbarName" class="text-slate-200 font-semibold truncate max-w-[100px]">Host</span>
+          <button onclick="showGateWall()" title="Odhlásit" class="hover:text-red-400 ml-1"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
 
-        <!-- Role badge indicator -->
-        <div id="adminIndicator" class="hidden xl:flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 font-mono">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" id="roleStatusDot"></span>
-          <span>Role: <strong id="userRoleBadge" class="text-cyan-300 font-bold">CUSTOMER</strong></span>
-        </div>
-
-        <!-- Cart Trigger Button -->
-        <button id="cartNavbarBtn" onclick="openCartModal()" class="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-600 hover:brightness-110 text-white font-bold text-sm shadow-xl shadow-indigo-600/30 transition transform active:scale-95">
-          <i class="fa-solid fa-basket-shopping text-base"></i>
-          <span class="hidden md:inline">Košík</span>
-          <span id="cartCountBadge" class="bg-white text-violet-950 text-xs px-2.5 py-0.5 rounded-full font-black shadow-inner">0</span>
+        <!-- Cart button -->
+        <button id="cartNavbarBtn" onclick="openCartModal()" class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span>Košík</span>
+          <span id="cartCountBadge" class="bg-slate-950 text-white text-[10px] px-1.5 py-0.2 rounded font-bold">0</span>
         </button>
       </div>
-
     </div>
   </header>
 
-  <section class="relative py-12 px-4 sm:px-6 lg:px-8 border-b border-slate-800/80 overflow-hidden">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-      
-      <!-- Hero Left Column -->
-      <div class="lg:col-span-7 space-y-5">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
-          <i class="fa-solid fa-terminal text-cyan-400"></i> Výukový lab: Otevřete DevTools stiskem klávesy F12
-        </div>
-        <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
-          Nezabezpečený e-shop řízený <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-400 bg-clip-text text-transparent">pouze prohlížečem</span>.
-        </h1>
-        <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl font-normal">
-          Žádný backend, žádné automatické berličky. Otevřete vývojářské nástroje svého prohlížeče, manipulujte se strukturou DOMu, modifikujte síťové požadavky a vyzkoušejte si, jak se chová klientský kód v praxi.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap items-center gap-3 pt-2">
-          <button onclick="toggleQuestDrawer()" class="px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-slate-950 font-black text-sm flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition transform hover:-translate-y-0.5">
-            <i class="fa-solid fa-list-check"></i> Návody na mise v DevTools (<span id="heroMissionsBadge">0/6</span>)
-          </button>
-          <button onclick="openCustomerReviewsModal()" class="px-5 py-3 rounded-xl bg-violet-950/70 hover:bg-violet-900 text-violet-300 font-semibold text-sm border border-violet-500/40 flex items-center gap-2 transition">
-            <i class="fa-solid fa-comments text-violet-400"></i> Otevřít recenze (Data Leak)
-          </button>
-        </div>
+  <!-- Wallet Strip -->
+  <section class="border-b border-slate-800/80 bg-slate-900/40 py-4 px-4">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <span class="text-xs text-slate-400 font-mono block">Klientská Peněženka (proměnná <code class="code-tag">userWallet</code>):</span>
+        <div id="userWalletDisplay" class="text-2xl font-bold font-mono text-emerald-400">10 000 Kč</div>
       </div>
-
-      <!-- Hero Right Column: Client Wallet -->
-      <div class="lg:col-span-5">
-        <div class="glass-card rounded-3xl p-6 sm:p-7 relative overflow-hidden border border-slate-700/80 shadow-2xl">
-          <div class="absolute -top-10 -right-10 w-36 h-36 bg-cyan-500/20 rounded-full blur-2xl"></div>
-
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-mono text-cyan-300 uppercase tracking-wider font-bold flex items-center gap-1.5">
-              <i class="fa-solid fa-wallet"></i> Klientská Peněženka
-            </span>
-            <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800/90 text-slate-400 border border-slate-700">
-              V proměnné userWallet
-            </span>
-          </div>
-
-          <div class="text-xs text-slate-400 uppercase tracking-widest font-mono mb-1">Dostupný kredit:</div>
-          <div id="userWalletDisplay" class="text-4xl sm:text-5xl font-black font-mono text-emerald-400 tracking-tight flex items-baseline gap-2 mb-6">
-            10 000 <span class="text-xl text-slate-400 font-normal">Kč</span>
-          </div>
-
-          <div class="space-y-3 pt-4 border-t border-slate-800/80 text-xs text-slate-300 font-mono">
-            <div class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
-              <span class="text-slate-400">Autorizační stav:</span>
-              <span id="roleCardStatus" class="text-cyan-400 font-bold flex items-center gap-1.5">
-                <i class="fa-solid fa-user-check text-xs"></i> Zákazník bez práv
-              </span>
-            </div>
-            <div class="flex justify-between items-center bg-slate-900/60 p-2.5 rounded-xl border border-slate-800">
-              <span class="text-slate-400">Aktivní promo kód:</span>
-              <span id="activePromoBadge" class="text-slate-500 font-bold">Žádný</span>
-            </div>
-          </div>
-        </div>
+      <div class="flex items-center gap-3">
+        <button onclick="openCustomerReviewsModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-mono text-slate-300">
+          <i class="fa-solid fa-comments mr-1 text-sky-400"></i> Recenze (Data Leak)
+        </button>
+        <button onclick="openExploitGuide()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-mono text-slate-300">
+          <i class="fa-solid fa-book-open mr-1 text-emerald-400"></i> Teorie
+        </button>
       </div>
-
     </div>
   </section>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
-    
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-6 border-b border-slate-800/80">
-      <div>
-        <div class="flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
-          <i class="fa-solid fa-layer-group"></i> Katalog hardwaru a periferií
-        </div>
-        <h2 class="text-3xl font-extrabold text-white tracking-tight">
-          Zboží s nezabezpečeným formulářem v DOMu
-        </h2>
-        <p class="text-sm text-slate-400 mt-1 max-w-xl">
-          Každý produkt obsahuje v HTML element <code class="code-tag">&lt;input type="hidden" class="p-price-input" value="..."&gt;</code>. Stiskněte <kbd class="code-tag">F12</kbd>, najděte prvek v <strong>Elements</strong> a přepište hodnotu!
-        </p>
-      </div>
-
-      <div class="flex flex-wrap items-center gap-2">
-        <button onclick="openCustomerReviewsModal()" class="px-4 py-2.5 rounded-xl bg-violet-900/50 hover:bg-violet-800/70 text-violet-200 text-xs font-semibold border border-violet-700/50 flex items-center gap-2 transition hover:scale-105 shadow-lg shadow-violet-950/50">
-          <i class="fa-solid fa-comments text-cyan-400"></i>
-          <span>Zákaznické recenze</span>
-        </button>
-        <button onclick="toggleQuestDrawer()" class="px-4 py-2.5 rounded-xl bg-cyan-950/60 hover:bg-cyan-900/70 text-cyan-300 text-xs font-mono border border-cyan-600/40 flex items-center gap-2 transition hover:scale-105 shadow-lg shadow-cyan-950/40">
-          <i class="fa-solid fa-terminal text-cyan-400"></i>
-          <span>Jak na to v DevTools (Návody)</span>
-        </button>
-      </div>
+  <!-- Product Grid -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+    <div class="mb-6">
+      <h2 class="text-lg font-bold text-white">Katalog produktů</h2>
+      <p class="text-xs text-slate-400 font-mono mt-0.5">V záložce Elements najděte <code class="code-tag">&lt;input type="hidden" class="p-price-input"&gt;</code> a upravte hodnotu.</p>
     </div>
 
-    <!-- Product Grid Container -->
-    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       <!-- Injected via JavaScript -->
     </div>
   </main>
 
-  <section id="adminSecretArea" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 transition-all duration-700">
-    <div class="glass-panel border-2 border-red-500/70 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden bg-gradient-to-br from-red-950/40 via-slate-900/90 to-purple-950/40">
-      
-      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-red-600/15 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
-        <div class="flex items-center gap-3.5">
-          <div class="w-13 h-13 rounded-2xl bg-red-600 text-white flex items-center justify-center text-2xl shadow-xl shadow-red-600/40 p-3">
-            <i class="fa-solid fa-skull-crossbones"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2.5">
-              <h3 class="text-2xl font-black text-white">Přísně tajný Administrátorský Trezor</h3>
-              <span class="bg-red-500 text-slate-950 text-xs px-2.5 py-0.5 rounded-full font-black tracking-wider uppercase animate-pulse">
-                ROOT ACCESS
-              </span>
-            </div>
-            <p class="text-xs text-slate-300 font-mono mt-0.5">
-              Ověřeno naivním kódem: <code class="code-tag">localStorage.getItem('is_admin') === 'true'</code>
-            </p>
-          </div>
-        </div>
-
-        <button onclick="lockAdmin()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold border border-slate-700 transition">
-          <i class="fa-solid fa-lock mr-1.5 text-red-400"></i> Zamknout panel zpět
-        </button>
+  <!-- Admin Vault (Unlocked via localStorage.is_admin = 'true') -->
+  <section id="adminSecretArea" class="hidden max-w-6xl mx-auto px-4 mb-12">
+    <div class="bg-red-950/20 border border-red-500/40 rounded-2xl p-5 font-mono text-xs text-slate-300 space-y-3">
+      <div class="flex items-center justify-between">
+        <span class="text-red-400 font-bold text-sm"><i class="fa-solid fa-skull mr-1.5"></i> Administrátorský Trezor (Mise 5 Splněna)</span>
+        <button onclick="lockAdmin()" class="px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700">Zamknout</button>
       </div>
-
-      <!-- Admin Grid Metrics -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 font-mono text-xs">
-        <div class="bg-slate-950/80 border border-red-900/40 p-5 rounded-2xl">
-          <div class="text-slate-400 mb-1 flex items-center gap-1.5">
-            <i class="fa-solid fa-vault text-amber-400"></i> Fiktivní rezerva v pokladně:
-          </div>
-          <div class="text-2xl font-black text-amber-400">12 450 000 Kč</div>
-          <p class="text-[10px] text-slate-500 mt-2">Plný přístup k bankovnímu účtu podniku</p>
-        </div>
-
-        <div class="bg-slate-950/80 border border-red-900/40 p-5 rounded-2xl">
-          <div class="text-slate-400 mb-1 flex items-center gap-1.5">
-            <i class="fa-solid fa-key text-emerald-400"></i> Master Database JWT Secret:
-          </div>
-          <div class="text-emerald-400 font-bold truncate text-sm">vibe_live_sec_eyJhbGciOiJIUzI1NiIsIn...</div>
-          <p class="text-[10px] text-slate-500 mt-2">Uniklé root přihlašovací údaje z produkce</p>
-        </div>
-
-        <div class="bg-slate-950/80 border border-red-900/40 p-5 rounded-2xl flex flex-col justify-between">
-          <div>
-            <div class="text-slate-400 mb-1 flex items-center gap-1.5">
-              <i class="fa-solid fa-circle-dollar-to-slot text-cyan-400"></i> Připsat bonus do peněženky:
-            </div>
-            <div class="text-cyan-400 font-bold text-base">+100 000 Kč</div>
-          </div>
-          <button onclick="grantAdminBonus()" class="mt-3 w-full py-2 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:brightness-110 text-white font-bold text-xs shadow-lg shadow-red-600/30 transition">
-            Připsat peníze na účet
-          </button>
-        </div>
+      <p class="text-slate-400">Odemčeno kontrolou: <code>localStorage.getItem('is_admin') === 'true'</code></p>
+      <div class="flex gap-4">
+        <button onclick="grantAdminBonus()" class="px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg">+100 000 Kč do peněženky</button>
       </div>
     </div>
   </section>
 
-  <!-- Quests Sidebar Drawer -->
-  <aside id="questDrawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-lg bg-slate-950/98 backdrop-blur-2xl border-l border-slate-800 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-    <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
-          <i class="fa-solid fa-terminal"></i>
-        </div>
-        <div>
-          <h3 class="font-extrabold text-white text-base">Hacker Průvodce: Mise v DevTools</h3>
-          <p class="text-xs text-slate-400">Přesné návody k provedení v reálném prohlížeči (F12)</p>
-        </div>
-      </div>
-      <button onclick="toggleQuestDrawer()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition">
-        <i class="fa-solid fa-xmark text-lg"></i>
-      </button>
+  <!-- Quests Sidebar -->
+  <aside id="questDrawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl transform translate-x-full transition-transform duration-200 flex flex-col font-mono text-xs">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+      <h3 class="font-bold text-white text-sm">Hacker Mise v DevTools</h3>
+      <button onclick="toggleQuestDrawer()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-base"></i></button>
     </div>
 
-    <div class="p-5 overflow-y-auto flex-grow space-y-5 font-sans text-sm">
-      <!-- Quest 1 -->
-      <div id="questCard-1" class="border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5">
-        <div class="flex items-start justify-between gap-2">
-          <span class="font-bold text-slate-200 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-slate-800 text-xs flex items-center justify-center font-mono text-cyan-400 font-bold">1</span>
-            Cenový kouzelník (DOM Tampering)
-          </span>
-          <span id="badge-1" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">ČEKÁ</span>
+    <div class="p-4 overflow-y-auto flex-grow space-y-4">
+      <div id="questCard-1" class="border border-slate-800 bg-slate-950/50 rounded-xl p-3 space-y-1.5">
+        <div class="flex justify-between font-bold text-slate-200">
+          <span>1. Cenový kouzelník (DOM)</span>
+          <span id="badge-1" class="text-slate-500">ČEKÁ</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Kupte <strong>Herní notebook VibePro Max</strong> za pouhou <strong>1 Kč</strong> tím, že přepíšete hodnotu ceny přímo ve zdrojovém stromu HTML.
-        </p>
-        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono space-y-1.5 text-slate-300">
-          <div class="text-cyan-400 font-bold flex items-center gap-1.5">
-            <i class="fa-solid fa-magnifying-glass"></i> Postup v DevTools:
-          </div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-400 text-[11px]">
-            <li>Stiskněte <kbd class="code-tag">F12</kbd> (nebo klikněte pravým tlačítkem myši na tlačítko <em>Do košíku</em> u notebooku a zvolte <strong>Prozkoumat / Inspect</strong>).</li>
-            <li>V záložce <strong>Elements</strong> vyhledejte element: <br><code class="code-tag">&lt;input type="hidden" id="p-price-1" value="35990"&gt;</code></li>
-            <li>Dvojklikem přepište <code class="text-amber-300 font-bold">value="35990"</code> na <code class="text-emerald-400 font-bold">value="1"</code> a stiskněte <kbd class="code-tag">Enter</kbd>.</li>
-            <li>Klikněte na tlačítko <strong>Do košíku</strong> a dokončete objednávku!</li>
-          </ol>
-        </div>
+        <p class="text-slate-400 text-[11px]">Přepište v Elements cenu notebooku (<code class="code-tag">id="p-price-1"</code>) na <strong>1 Kč</strong> a kupte jej.</p>
       </div>
 
-      <!-- Quest 2 -->
-      <div id="questCard-2" class="border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5">
-        <div class="flex items-start justify-between gap-2">
-          <span class="font-bold text-slate-200 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-slate-800 text-xs flex items-center justify-center font-mono text-cyan-400 font-bold">2</span>
-            Matematický paradox (Záporný počet kusů)
-          </span>
-          <span id="badge-2" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">ČEKÁ</span>
+      <div id="questCard-2" class="border border-slate-800 bg-slate-950/50 rounded-xl p-3 space-y-1.5">
+        <div class="flex justify-between font-bold text-slate-200">
+          <span>2. Záporné množství</span>
+          <span id="badge-2" class="text-slate-500">ČEKÁ</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          E-shop počítá celkovou sumu jako <code class="code-tag">cena * množství</code> bez ověření na serveru. Nechte si vyplatit peníze!
-        </p>
-        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono space-y-1.5 text-slate-300">
-          <div class="text-cyan-400 font-bold flex items-center gap-1.5">
-            <i class="fa-solid fa-magnifying-glass"></i> Postup v DevTools / UI:
-          </div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-400 text-[11px]">
-            <li>Vložte libovolné zboží do košíku.</li>
-            <li>Otevřete nákupní košík a do políčka pro počet kusů zadejte zápornou hodnotu, např. <code class="text-emerald-400 font-bold">-5</code> (nebo přes <kbd class="code-tag">F12</kbd> upravte hodnotu v poli <code class="code-tag">&lt;input type="number"&gt;</code>).</li>
-            <li>Všimněte si, že celková částka k úhradě se změní na zápornou hodnotu (např. -50 000 Kč).</li>
-            <li>Klikněte na <strong>Závazně koupit a provést platbu</strong>. Peníze se vám přičtou do peněženky!</li>
-          </ol>
-        </div>
+        <p class="text-slate-400 text-[11px]">Vložte zboží a v košíku zadejte počet kusů <code class="code-tag">-5</code>. Dokončete nákup pro vyplacení peněz.</p>
       </div>
 
-      <!-- Quest 3 -->
-      <div id="questCard-3" class="border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5">
-        <div class="flex items-start justify-between gap-2">
-          <span class="font-bold text-slate-200 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-slate-800 text-xs flex items-center justify-center font-mono text-cyan-400 font-bold">3</span>
-            Tajný slevový kód v JavaScriptu
-          </span>
-          <span id="badge-3" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">ČEKÁ</span>
+      <div id="questCard-3" class="border border-slate-800 bg-slate-950/50 rounded-xl p-3 space-y-1.5">
+        <div class="flex justify-between font-bold text-slate-200">
+          <span>3. Slevový kód v JS</span>
+          <span id="badge-3" class="text-slate-500">ČEKÁ</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Klientský vývojář zapsal slevové kódy do otevřeného JavaScriptu. Najděte kód pro 100% slevu!
-        </p>
-        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono space-y-1.5 text-slate-300">
-          <div class="text-cyan-400 font-bold flex items-center gap-1.5">
-            <i class="fa-solid fa-magnifying-glass"></i> Postup v DevTools:
-          </div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-400 text-[11px]">
-            <li>Stiskněte <kbd class="code-tag">F12</kbd> a přejděte do záložky <strong>Console</strong> (Konzole).</li>
-            <li>Napište příkaz <code class="text-cyan-300 font-bold">console.log(PROMO_CODES_DATABASE)</code> a stiskněte <kbd class="code-tag">Enter</kbd>.</li>
-            <li>Rozbalte objekt a najděte kód se slevou <code class="text-emerald-400 font-bold">1.00</code> (100% sleva).</li>
-            <li>Zadejte nalezený promo kód do políčka v nákupním košíku a klikněte na <strong>Uplatnit</strong>.</li>
-          </ol>
-        </div>
+        <p class="text-slate-400 text-[11px]">V konzoli spusťte <code class="code-tag">console.log(PROMO_CODES_DATABASE)</code> a uplatněte 100% kód v košíku.</p>
       </div>
 
-      <!-- Quest 4 -->
-      <div id="questCard-4" class="border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5">
-        <div class="flex items-start justify-between gap-2">
-          <span class="font-bold text-slate-200 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-slate-800 text-xs flex items-center justify-center font-mono text-cyan-400 font-bold">4</span>
-            Data Leak: JSON Overfetching v síti
-          </span>
-          <span id="badge-4" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">ČEKÁ</span>
+      <div id="questCard-4" class="border border-slate-800 bg-slate-950/50 rounded-xl p-3 space-y-1.5">
+        <div class="flex justify-between font-bold text-slate-200">
+          <span>4. Overfetching (Network)</span>
+          <span id="badge-4" class="text-slate-500">ČEKÁ</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Web na pohled ukazuje jen běžné recenze. Síťová odpověď z backendu však obsahuje celou řadu citlivých dat, která uživatel vůbec neměl vidět.
-        </p>
-        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono space-y-1.5 text-slate-300">
-          <div class="text-cyan-400 font-bold flex items-center gap-1.5">
-            <i class="fa-solid fa-magnifying-glass"></i> Postup v DevTools:
-          </div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-400 text-[11px]">
-            <li>Stiskněte <kbd class="code-tag">F12</kbd> a přejděte do záložky <strong>Network</strong> (Síť). Vyfiltrujte <em>Fetch/XHR</em>.</li>
-            <li>V aplikaci klikněte na tlačítko <strong>Zákaznické recenze</strong>.</li>
-            <li>V seznamu síťových dotazů se objeví požadavek na <code class="code-tag">/api/v2/customer-reviews</code>. Klikněte na něj a přepněte na <strong>Response / Preview</strong>.</li>
-            <li>Prozkoumejte uniklá hesla, rodná čísla a čísla kreditek. Zkopírujte libovolný klíč ze surových dat nebo v konzoli spusťte <code class="code-tag">console.log(MASSIVE_REVIEWS_BALLAST)</code>.</li>
-          </ol>
-        </div>
+        <p class="text-slate-400 text-[11px]">Otevřete Recenze a v Network tabu prozkoumejte uniklá data dotazu <code class="code-tag">/customer-reviews</code>.</p>
       </div>
 
-      <!-- Quest 5 -->
-      <div id="questCard-5" class="border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5">
-        <div class="flex items-start justify-between gap-2">
-          <span class="font-bold text-slate-200 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-slate-800 text-xs flex items-center justify-center font-mono text-cyan-400 font-bold">5</span>
-            Root administrátor přes LocalStorage
-          </span>
-          <span id="badge-5" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">ČEKÁ</span>
+      <div id="questCard-5" class="border border-slate-800 bg-slate-950/50 rounded-xl p-3 space-y-1.5">
+        <div class="flex justify-between font-bold text-slate-200">
+          <span>5. Root přes LocalStorage</span>
+          <span id="badge-5" class="text-slate-500">ČEKÁ</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Celé oprávnění administrátora stojí na hodnotě uložené v prohlížeči: <code class="code-tag">localStorage.getItem('is_admin')</code>.
-        </p>
-        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono space-y-1.5 text-slate-300">
-          <div class="text-cyan-400 font-bold flex items-center gap-1.5">
-            <i class="fa-solid fa-magnifying-glass"></i> Postup v DevTools:
-          </div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-400 text-[11px]">
-            <li>Stiskněte <kbd class="code-tag">F12</kbd> &rarr; záložka <strong>Console</strong> (Konzole).</li>
-            <li>Zadejte přesný příkaz: <br><code class="text-red-400 font-bold">localStorage.setItem('is_admin', 'true')</code> a stiskněte <kbd class="code-tag">Enter</kbd>.</li>
-            <li>(Alternativně: otevřete záložku <strong>Application</strong> &rarr; <em>Local Storage</em> a ručně přidejte klíč <code class="code-tag">is_admin</code> s hodnotou <code class="code-tag">true</code>).</li>
-            <li>Sledujte, jak se na stránce okamžitě odemkne červený <strong>Administrátorský Trezor</strong>!</li>
-          </ol>
-        </div>
+        <p class="text-slate-400 text-[11px]">V konzoli zadejte <code class="code-tag">localStorage.setItem('is_admin', 'true')</code> pro odemčení trezoru.</p>
       </div>
 
-      <!-- Quest 6 -->
-      <div id="questCard-6" class="border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5">
-        <div class="flex items-start justify-between gap-2">
-          <span class="font-bold text-slate-200 flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-slate-800 text-xs flex items-center justify-center font-mono text-emerald-400 font-bold">6</span>
-            Odhalení hesel v paměti JS / Google DB
-          </span>
-          <span id="badge-6" class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">ČEKÁ</span>
+      <div id="questCard-6" class="border border-slate-800 bg-slate-950/50 rounded-xl p-3 space-y-1.5">
+        <div class="flex justify-between font-bold text-slate-200">
+          <span>6. Uniklá databáze hesel</span>
+          <span id="badge-6" class="text-slate-500">ČEKÁ</span>
         </div>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Klientská databáze hesel a uživatelů leží v globální proměnné <code class="code-tag">userAccountsDb</code>. Prozkoumejte ji!
-        </p>
-        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs font-mono space-y-1.5 text-slate-300">
-          <div class="text-cyan-400 font-bold flex items-center gap-1.5">
-            <i class="fa-solid fa-magnifying-glass"></i> Postup v DevTools:
-          </div>
-          <ol class="list-decimal list-inside space-y-1 text-slate-400 text-[11px]">
-            <li>Stiskněte <kbd class="code-tag">F12</kbd> &rarr; záložka <strong>Console</strong>.</li>
-            <li>Zadejte: <code class="text-emerald-400 font-bold">console.table(userAccountsDb)</code> a stiskněte <kbd class="code-tag">Enter</kbd>.</li>
-            <li>Zobrazí se vám přehledná tabulka všech hesel v čistém textu včetně hesla ředitele školy.</li>
-            <li>(Misi můžete splnit také spuštěním <code class="code-tag">openDatabaseSheetModal()</code> nebo zadáním hesla ze seznamu do přihlašovacího formuláře).</li>
-          </ol>
-        </div>
+        <p class="text-slate-400 text-[11px]">Zadejte <code class="code-tag">console.table(userAccountsDb)</code> a přihlaste se libovolným nalezeným účtem.</p>
       </div>
     </div>
 
-    <div class="p-4 border-t border-slate-800 bg-slate-950 flex items-center justify-between">
-      <span class="text-xs text-slate-400 font-mono">Stav: <strong id="missionsTotalProgress">0 / 6 splněno</strong></span>
-      <button onclick="resetAllChallenges()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300 transition">
-        <i class="fa-solid fa-rotate-left mr-1"></i> Resetovat cvičení
-      </button>
+    <div class="p-3 border-t border-slate-800 bg-slate-950 flex justify-between items-center">
+      <span id="missionsTotalProgress" class="text-slate-400 text-[11px]">0 / 6 hotovo</span>
+      <button onclick="resetAllChallenges()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded">Reset</button>
     </div>
   </aside>
 
   <!-- Cart Modal -->
-  <div id="cartModal" class="fixed inset-0 z-50 modal-backdrop-custom hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-      
-      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-violet-600/20 text-violet-400 flex items-center justify-center">
-            <i class="fa-solid fa-cart-shopping"></i>
-          </div>
-          <div>
-            <h3 class="font-extrabold text-white text-lg">Váš nákupní košík</h3>
-            <p class="text-xs text-slate-400 font-mono">Klientský výpočet v JavaScriptu</p>
-          </div>
-        </div>
-        <button onclick="closeCartModal()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
+  <div id="cartModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh] font-mono text-xs">
+      <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
+        <h3 class="font-bold text-white text-sm">Nákupní košík</h3>
+        <button onclick="closeCartModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
 
-      <div id="cartItemsContainer" class="p-5 overflow-y-auto space-y-3 flex-grow max-h-96"></div>
+      <div id="cartItemsContainer" class="p-4 overflow-y-auto space-y-2.5 flex-grow"></div>
 
-      <div class="px-5 py-3.5 bg-slate-950/90 border-t border-slate-800 flex gap-2">
-        <input type="text" id="promoInput" placeholder="Zadejte promo kód (nápověda: zkus konzoli console.log(PROMO_CODES_DATABASE))" 
-          class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white font-mono uppercase focus:outline-none focus:border-cyan-400">
-        <button onclick="applyPromoCode()" class="bg-gradient-to-r from-violet-600 to-indigo-600 hover:brightness-110 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition">
-          Uplatnit
-        </button>
+      <div class="px-4 py-3 bg-slate-950 border-t border-slate-800 flex gap-2">
+        <input type="text" id="promoInput" placeholder="Promo kód (viz PROMO_CODES_DATABASE v JS)" class="flex-grow bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white uppercase focus:outline-none focus:border-sky-400">
+        <button onclick="applyPromoCode()" class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-4 py-2 rounded-lg">Uplatnit</button>
       </div>
 
-      <div class="p-5 border-t border-slate-800 bg-slate-950 flex flex-col gap-3 font-mono">
-        <div class="space-y-1.5 text-xs text-slate-400">
-          <div class="flex justify-between">
-            <span>Součet položek:</span>
-            <span id="cartSubtotal" class="text-slate-200 font-bold text-sm">0 Kč</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Uplatněná sleva:</span>
-            <span id="cartDiscount" class="text-emerald-400 font-bold text-sm">0 %</span>
-          </div>
-          <div class="flex justify-between text-base font-extrabold text-white pt-2 border-t border-slate-800/80">
-            <span>Konečná cena:</span>
-            <span id="cartTotal" class="text-cyan-400 text-2xl font-black">0 Kč</span>
-          </div>
+      <div class="p-4 border-t border-slate-800 bg-slate-950 space-y-2">
+        <div class="flex justify-between text-slate-400">
+          <span>Sleva:</span>
+          <span id="cartDiscount" class="text-emerald-400 font-bold">0 %</span>
         </div>
-
-        <div class="flex items-center gap-3 pt-2">
-          <button onclick="clearCart()" class="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition">
-            Vysypat
-          </button>
-          <button onclick="checkoutOrder()" class="flex-grow py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/20 transition transform active:scale-95 flex items-center justify-center gap-2">
-            <i class="fa-solid fa-lock-open text-xs"></i> Závazně koupit a provést platbu
-          </button>
+        <div class="flex justify-between text-white font-bold text-base">
+          <span>Celkem:</span>
+          <span id="cartTotal" class="text-sky-400">0 Kč</span>
+        </div>
+        <div class="flex gap-2 pt-2">
+          <button onclick="clearCart()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg">Vysypat</button>
+          <button onclick="checkoutOrder()" class="flex-grow py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-lg">Dokončit nákup</button>
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- Reviews Modal -->
-  <div id="reviewsModal" class="fixed inset-0 z-50 modal-backdrop-custom hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
-      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
-        <div>
-          <h3 class="font-extrabold text-white text-lg flex items-center gap-2">
-            <i class="fa-solid fa-comments text-violet-400"></i> Zákaznická hodnocení
-          </h3>
-          <p class="text-xs text-slate-400 font-mono">Endpoint: /api/v2/customer-reviews</p>
-        </div>
-        <button onclick="closeReviewsModal()" class="text-slate-400 hover:text-white p-2">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
+  <div id="reviewsModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl flex flex-col max-h-[80vh] font-mono text-xs">
+      <div class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-950">
+        <h3 class="font-bold text-white">Zákaznické recenze (/api/v2/customer-reviews)</h3>
+        <button onclick="closeReviewsModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
-
-      <div id="reviewsList" class="p-5 space-y-3 overflow-y-auto"></div>
-
-      <div class="p-4 border-t border-slate-800 bg-slate-950 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-        <span class="text-amber-300 flex items-center gap-1.5 font-mono">
-          <i class="fa-solid fa-triangle-exclamation"></i> V UI vidíte 2 recenze, ale v síti (DevTools Network) leží hesla i čísla karet!
-        </span>
-        <button onclick="inspectReviewsDevToolsHint()" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black font-mono transition">
-          Jak to vidět v Network tabu?
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Database Sheet Modal -->
-  <div id="databaseSheetModal" class="fixed inset-0 z-50 modal-backdrop-custom hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-emerald-500/50 rounded-3xl w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">
-            <i class="fa-solid fa-table-cells"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h3 class="font-extrabold text-white text-base">Uniklá databáze: Google Sheets (userAccountsDb)</h3>
-              <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-mono px-2 py-0.5 rounded border border-emerald-500/40 font-bold">
-                PUBLIC SPREADSHEET
-              </span>
-            </div>
-            <p class="text-xs text-slate-400 font-mono">
-              docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZj_VIBESHOP_DB_LEAK/pubhtml
-            </p>
-          </div>
-        </div>
-        <button onclick="closeDatabaseSheetModal()" class="text-slate-400 hover:text-white p-2">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-
-      <div class="p-4 bg-slate-950/70 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-        <div class="flex items-center gap-2 flex-grow max-w-md">
-          <i class="fa-solid fa-filter text-slate-500"></i>
-          <input type="text" id="dbSearchInput" placeholder="Vyhledat uživatele nebo heslo..." 
-            class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-white w-full text-xs focus:outline-none focus:border-emerald-400"
-            oninput="renderDatabaseTable()">
-        </div>
-        <div class="text-slate-400 text-[11px]" id="dbRecordCountBadge">Záznamů: 7</div>
-      </div>
-
-      <div class="p-4 overflow-x-auto overflow-y-auto flex-grow">
-        <table class="w-full text-left text-xs font-mono border-collapse">
-          <thead class="bg-slate-950/90 text-slate-400 border-b border-slate-800 sticky top-0">
-            <tr>
-              <th class="p-2.5">Čas zápisu</th>
-              <th class="p-2.5">Login / E-mail</th>
-              <th class="p-2.5 text-amber-300">Plaintext Heslo</th>
-              <th class="p-2.5">Bezpečnostní audit</th>
-              <th class="p-2.5">IP adresa</th>
-              <th class="p-2.5">Role</th>
-            </tr>
-          </thead>
-          <tbody id="databaseTableBody" class="divide-y border-slate-800/80 text-slate-300"></tbody>
-        </table>
-      </div>
-
-      <div class="p-3.5 bg-slate-950 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
-        <span class="text-emerald-400">
-          <i class="fa-solid fa-terminal mr-1"></i> V konzoli lze vypsat přímo pomocí <code class="code-tag">console.table(userAccountsDb)</code>.
-        </span>
-        <button onclick="closeDatabaseSheetModal()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-white rounded-lg">Zavřít</button>
+      <div id="reviewsList" class="p-4 space-y-3 overflow-y-auto"></div>
+      <div class="p-3 border-t border-slate-800 bg-slate-950 text-amber-400 text-[11px]">
+        Otevřete DevTools &rarr; Network &rarr; podívejte se na response požadavku.
       </div>
     </div>
   </div>
 
   <!-- Exploit Guide Modal -->
-  <div id="exploitGuideModal" class="fixed inset-0 z-50 modal-backdrop-custom hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-      <div class="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-950">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
-            <i class="fa-solid fa-graduation-cap"></i>
-          </div>
-          <div>
-            <h3 class="font-extrabold text-white text-lg">Příručka softwarové architektury</h3>
-            <p class="text-xs text-slate-400">Proč klientovi nesmíte nikdy věřit?</p>
-          </div>
-        </div>
-        <button onclick="closeExploitGuide()" class="text-slate-400 hover:text-white p-2">
-          <i class="fa-solid fa-xmark text-lg"></i>
-        </button>
-      </div>
-
-      <div class="p-6 overflow-y-auto space-y-5 text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-        <div class="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-slate-200">
-          <h4 class="font-bold text-cyan-300 text-sm mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-shield-halved"></i> Zlaté pravidlo síťových aplikací
-          </h4>
-          <p class="text-xs leading-relaxed">
-            Front-end slouží <strong>výhradně pro uživatelský komfort</strong>. Veškeré přepočty financí, kontrola skladových zásob, uplatňování slev i ověřování hesel musí probíhat na serveru (v PHP, Node.js, Pythonu či C#) s jednosměrným hašováním (bcrypt/argon2).
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-            <h5 class="font-bold text-amber-300 flex items-center gap-1.5 text-xs">
-              <i class="fa-solid fa-circle-exclamation"></i> 1. Manipulace s cenou (DOM)
-            </h5>
-            <p class="text-[11px] text-slate-400">
-              VibeShop čte cenu z <code>input.value</code>. Útočník v DevTools hodnotu přepíše. Správné řešení: klient posílá jen <code>productId</code> a server si cenu vytáhne z bezpečné SQL databáze.
-            </p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-            <h5 class="font-bold text-emerald-300 flex items-center gap-1.5 text-xs">
-              <i class="fa-solid fa-circle-exclamation"></i> 2. Záporné množství
-            </h5>
-            <p class="text-[11px] text-slate-400">
-              Atribut <code>min="1"</code> chrání pouze před běžným kliknutím šipky. Jakýkoliv skript však může poslat zápornou hodnotu. Backend musí mít striktní kontrolu: <code>quantity &gt; 0</code>.
-            </p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-            <h5 class="font-bold text-violet-300 flex items-center gap-1.5 text-xs">
-              <i class="fa-solid fa-circle-exclamation"></i> 3. Plaintext slevy v JS
-            </h5>
-            <p class="text-[11px] text-slate-400">
-              Kód v prohlížeči je veřejný. Tajné slevy pro VIP nebo učitele tak vidí kdokoliv stisknutím <code>F12</code>. Kupon se musí ověřovat vůči serverovému API.
-            </p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-            <h5 class="font-bold text-red-300 flex items-center gap-1.5 text-xs">
-              <i class="fa-solid fa-circle-exclamation"></i> 4. Overfetching &amp; JSON Balast
-            </h5>
-            <p class="text-[11px] text-slate-400">
-              Lenivý vývojář pošle celý řádek tabulky včetně hesel a adres. V síti pak tečou stovky kilobajtů interních logů. Server smí poslat jen data nutná pro zobrazení.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="p-5 border-t border-slate-800 bg-slate-950 flex justify-end">
-        <button onclick="closeExploitGuide()" class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition">
-          Rozumím
-        </button>
+  <div id="exploitGuideModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl p-6 space-y-4 text-xs leading-relaxed">
+      <h3 class="font-bold text-white text-base">Pravidlo klientské bezpečnosti</h3>
+      <p class="text-slate-300">
+        Prohlížeč (front-end) je plně pod kontrolou uživatele. Jakoukoliv proměnnou, HTML atribut nebo odesílanou částku může uživatel změnit. Veškeré autorizace, ověřování cen a ukládání hesel proto musí běžet na serveru.
+      </p>
+      <div class="flex justify-end">
+        <button onclick="closeExploitGuide()" class="px-4 py-2 bg-sky-500 text-slate-950 font-bold rounded-lg">Rozumím</button>
       </div>
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
-  <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+  <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Mobile DevTools (Eruda) -->
+  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || ('ontouchstart' in window);
+    if (isMobile || window.location.search.includes('debug=true')) {
+      eruda.init({ tool: ['elements', 'console', 'network', 'resources'] });
+    }
+  </script>
 
   <script>
-    /* =========================================================================
-       1. GLOBAL STATE & MOCK OBJECTS (EXPOSED FOR REAL DEVTOOLS EXPLORATION)
-       ========================================================================= */
-
+    /* LOGIKA A DATA APLIKACE */
     const DEFAULT_MOCK_DATABASE = [
-      {
-        timestamp: "2026-09-29 08:14:22",
-        username: "reditel@skola-gymnazium.cz",
-        password: "HesloReditel2026!",
-        audit: "Slabé (obsahuje rok a slovo heslo)",
-        ip: "192.168.1.1",
-        role: "HEADMASTER_SUPERUSER"
-      },
-      {
-        timestamp: "2026-09-29 08:35:10",
-        username: "matikar_josef@skola.cz",
-        password: "3.1415926535",
-        audit: "Snadno odhadnutelné (číslo Pí)",
-        ip: "192.168.1.15",
-        role: "TEACHER_MATH"
-      },
-      {
-        timestamp: "2026-09-29 09:02:44",
-        username: "zastupce_reditelky",
-        password: "123456",
-        audit: "Kritické (nejčastější heslo planety)",
-        ip: "192.168.1.2",
-        role: "DEPUTY_DIRECTOR"
-      },
-      {
-        timestamp: "2026-09-29 09:12:19",
-        username: "ucitel_telocviku",
-        password: "fotbalJeZivot",
-        audit: "Uniklé ve 4 databázích",
-        ip: "192.168.1.42",
-        role: "TEACHER_GYM"
-      },
-      {
-        timestamp: "2026-09-29 09:30:05",
-        username: "student_pepa_1a",
-        password: "PepaKral2008",
-        audit: "Slabé (jméno + rok)",
-        ip: "192.168.1.104",
-        role: "STUDENT"
-      },
-      {
-        timestamp: "2026-09-29 09:44:51",
-        username: "hospodarka_jana",
-        password: "KafickoASusenk4",
-        audit: "Průměrné (leetspeak náhrada)",
-        ip: "192.168.1.8",
-        role: "FINANCE_ACCOUNTING"
-      },
-      {
-        timestamp: "2026-09-29 10:15:33",
-        username: "skolnik_karel",
-        password: "kotelnaMistr",
-        audit: "Slabé (slovníkový výraz)",
-        ip: "192.168.1.55",
-        role: "FACILITY_MANAGER"
-      }
+      { username: "reditel@skola-gymnazium.cz", password: "HesloReditel2026!", role: "HEADMASTER" },
+      { username: "matikar_josef@skola.cz", password: "3.1415926535", role: "TEACHER" },
+      { username: "student_pepa_1a", password: "PepaKral2008", role: "STUDENT" }
     ];
 
-    window.userAccountsDb = [];
+    window.userAccountsDb = [...DEFAULT_MOCK_DATABASE];
 
     const PRODUCTS = [
-      {
-        id: 1,
-        title: "Herní notebook VibePro Max",
-        subtitle: "Cíl pro Úkol 1: změňte skrytou cenu v DOMu na 1 Kč",
-        normalPrice: 35990,
-        badge: "PRIMÁRNÍ CÍL PRO DOM EXPLOIT",
-        badgeColor: "bg-red-500/20 text-red-300 border-red-500/40",
-        specs: "RTX 4090, 64GB RAM, Liquid Cooling",
-        icon: "fa-laptop-code"
-      },
-      {
-        id: 2,
-        title: "AI Brýle CyberVision X",
-        subtitle: "Průhledový micro-OLED displej",
-        normalPrice: 14990,
-        badge: "Populární",
-        badgeColor: "bg-cyan-500/20 text-cyan-300 border-cyan-500/40",
-        specs: "120Hz, vestavěná AI asistentka",
-        icon: "fa-vr-cardboard"
-      },
-      {
-        id: 3,
-        title: "Kvantová káva pro programátory (1kg)",
-        subtitle: "Zrnková káva pražená v serverovně",
-        normalPrice: 590,
-        badge: "Bestseller",
-        badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-        specs: "100% Arabica, +200% kódovací výkon",
-        icon: "fa-mug-hot"
-      },
-      {
-        id: 4,
-        title: "Sluchátka VibeBeats ANC 3000",
-        subtitle: "Aktivní potlačení školního hluku",
-        normalPrice: 4290,
-        badge: "Audiofil",
-        badgeColor: "bg-violet-500/20 text-violet-300 border-violet-500/40",
-        specs: "40h výdrž, prostorový 3D zvuk",
-        icon: "fa-headphones"
-      },
-      {
-        id: 5,
-        title: "Mechanická klávesnice CyberClick",
-        subtitle: "Optické spínače s RGB podsvícením",
-        normalPrice: 2890,
-        badge: "Hardware",
-        badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
-        specs: "Hotswap, USB-C, PBT klávesy",
-        icon: "fa-keyboard"
-      },
-      {
-        id: 6,
-        title: "UltraFast NVMe SSD 4TB",
-        subtitle: "Rychlost čtení až 7400 MB/s",
-        normalPrice: 6490,
-        badge: "Rychlost",
-        badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/40",
-        specs: "PCIe 4.0, hliníkový chladič",
-        icon: "fa-hard-drive"
-      }
+      { id: 1, title: "Herní notebook VibePro", normalPrice: 35990, icon: "fa-laptop" },
+      { id: 2, title: "AI Brýle CyberVision", normalPrice: 14990, icon: "fa-vr-cardboard" },
+      { id: 3, title: "Kvantová káva (1kg)", normalPrice: 590, icon: "fa-mug-hot" },
+      { id: 4, title: "Sluchátka ANC 3000", normalPrice: 4290, icon: "fa-headphones" },
+      { id: 5, title: "Mechanická klávesnice", normalPrice: 2890, icon: "fa-keyboard" },
+      { id: 6, title: "NVMe SSD disk 4TB", normalPrice: 6490, icon: "fa-hard-drive" }
     ];
 
     window.PROMO_CODES_DATABASE = {
-      "VIBE10": { discount: 0.10, desc: "10% sleva pro začátečníky" },
+      "VIBE10": { discount: 0.10, desc: "10% sleva" },
       "UCITEL100": { discount: 1.00, desc: "100% TAJNÁ SLEVA PRO PROFESORY" },
-      "HACKER99": { discount: 0.99, desc: "99% sleva pro testery" }
+      "HACKER99": { discount: 0.99, desc: "99% sleva" }
     };
 
     window.MASSIVE_REVIEWS_BALLAST = {
-      system_status: "NOMINAL",
-      cluster_info: {
-        datacenter_region: "eu-central-prague-rack-42",
-        k8s_node_pool: "k8s-node-worker-amd64-instance-91823",
-        load_balancer_ip: "192.168.137.99",
-        fan_speed_rpm: 4890
-      },
       reviews: [
         {
-          review_id: "rev_101",
-          author_display_name: "Ing. Petr Novák (Učitel)",
-          rating_stars: 5,
-          comment: "Notebook jsem koupil do školní učebny. Žáci na něm v hodině paří Doom se 120 FPS!",
-          _UNFILTERED_INTERNAL_USER_ACCOUNT: {
-            user_uuid: "usr_a1b2-c3d4-e5f6-7890-001",
-            full_legal_name: "Ing. Petr Novák",
-            official_school_email: "petr.novak@skola-obchodka.cz",
-            plaintext_login_password: "HesloProKolegy2026!",
-            bank_account_iban: "CZ6508000000192000145892",
-            credit_card: {
-              card_number: "4532 8901 2234 9811",
-              expiration: "08/29",
-              cvv_cvc: "782"
-            }
-          }
-        },
-        {
-          review_id: "rev_102",
-          author_display_name: "Anička 'HackGirl' Z.",
-          rating_stars: 4,
-          comment: "Ta káva mi zachránila noční kódování. Jen v noci po ní modře svítí uši.",
-          _UNFILTERED_INTERNAL_USER_ACCOUNT: {
-            user_uuid: "usr_a1b2-c3d4-e5f6-7890-002",
-            full_legal_name: "Anna Zemanová",
-            official_school_email: "anicka99@seznam.cz",
-            plaintext_login_password: "kocickaMilacek123",
-            bank_account_iban: "CZ0201000000123456789012",
-            credit_card: {
-              card_number: "5425 2311 0098 7761",
-              expiration: "11/28",
-              cvv_cvc: "114"
-            }
-          }
+          author: "Ing. Petr Novák",
+          comment: "Notebook funguje skvěle.",
+          _UNFILTERED_LEAK: { password: "HesloProKolegy2026!", card: "4532 8901 2234 9811" }
         }
       ]
     };
@@ -1219,189 +434,15 @@
     let appliedPromoCodeName = null;
 
     const CHALLENGES = {
-      1: { id: 1, title: "Cenový kouzelník", solved: false },
-      2: { id: 2, title: "Matematický paradox", solved: false },
-      3: { id: 3, title: "Tajný slevový kód", solved: false },
-      4: { id: 4, title: "Data Leak (Overfetching)", solved: false },
-      5: { id: 5, title: "Root administrátor", solved: false },
-      6: { id: 6, title: "Google Sheets Databáze", solved: false },
+      1: { solved: false }, 2: { solved: false }, 3: { solved: false },
+      4: { solved: false }, 5: { solved: false }, 6: { solved: false }
     };
 
-    /* =========================================================================
-       2. INITIALIZATION & STORAGE OBSERVERS
-       ========================================================================= */
-
     window.addEventListener('DOMContentLoaded', () => {
-      initDatabaseStorage();
       renderProducts();
-      loadSavedState();
-      checkAdminStatus();
-      updateCartBadge();
-      updateWalletDisplay();
       checkInitialGateState();
-      setupDevToolsWatchers();
+      setInterval(checkAdminStatus, 800);
     });
-
-    function setupDevToolsWatchers() {
-      window.addEventListener('storage', (e) => {
-        if (e.key === 'is_admin') checkAdminStatus();
-      });
-
-      setInterval(() => {
-        checkAdminStatus();
-      }, 700);
-
-      const wall = document.getElementById('authGateWall');
-      if (wall && wall.parentNode) {
-        const observer = new MutationObserver(() => {
-          if (!document.getElementById('authGateWall') || document.getElementById('authGateWall').classList.contains('hidden')) {
-            if (!localStorage.getItem('active_user')) {
-              localStorage.setItem('active_user', 'DevTools_Hacker');
-              document.getElementById('activeUserNavbarName').innerText = 'DevTools_Hacker';
-              showToast("Bypass úspěšný!", "Odstranil jsi přihlašovací bránu přímo z DOMu!", "success");
-            }
-          }
-        });
-        observer.observe(wall.parentNode, { childList: true, subtree: true, attributes: true });
-      }
-    }
-
-    function checkInitialGateState() {
-      const activeUser = localStorage.getItem('active_user');
-      const wall = document.getElementById('authGateWall');
-      if (activeUser && wall) {
-        wall.classList.add('hidden');
-        document.getElementById('activeUserNavbarName').innerText = activeUser;
-      }
-    }
-
-    function switchGateMode(mode) {
-      const regScrollBox = document.getElementById('regFormScrollContainer');
-      const loginForm = document.getElementById('gateLoginForm');
-      const regBtn = document.getElementById('gateTabRegBtn');
-      const loginBtn = document.getElementById('gateTabLoginBtn');
-      const errBox = document.getElementById('loginErrorMessage');
-      if (errBox) errBox.classList.add('hidden');
-
-      if (mode === 'register') {
-        if (regScrollBox) regScrollBox.classList.remove('hidden');
-        loginForm.classList.add('hidden');
-        regBtn.className = "flex-1 py-2 rounded-lg font-bold bg-cyan-500 text-slate-950 transition";
-        loginBtn.className = "flex-1 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition";
-      } else {
-        if (regScrollBox) regScrollBox.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-        loginBtn.className = "flex-1 py-2 rounded-lg font-bold bg-violet-600 text-white transition";
-        regBtn.className = "flex-1 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition";
-      }
-    }
-
-    function handleGateRegister(event) {
-      event.preventDefault();
-      const u = document.getElementById('gateRegUsername').value.trim();
-      const p = document.getElementById('gateRegPassword').value.trim();
-      const r = document.getElementById('gateRegRole').value;
-
-      if (!u || !p) return;
-
-      const newRecord = {
-        timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-        username: u,
-        password: p,
-        audit: p.length < 8 ? "Extrémně krátké heslo" : "Nové testovací heslo (v plaintextu!)",
-        ip: "192.168.1." + Math.floor(Math.random() * 200 + 10),
-        role: r
-      };
-
-      userAccountsDb.unshift(newRecord);
-      localStorage.setItem('vibeshop_mock_users_db', JSON.stringify(userAccountsDb));
-      localStorage.setItem('active_user', u);
-
-      document.getElementById('authGateWall').classList.add('hidden');
-      document.getElementById('activeUserNavbarName').innerText = u;
-
-      showToast("Vítejte ve VibeShopu!", `Registrace uložena. Účet ${u} je přihlášen.`, "success");
-
-      if (typeof confetti === 'function') {
-        confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 } });
-      }
-    }
-
-    function handleGateLogin(event) {
-      event.preventDefault();
-      const u = document.getElementById('gateLoginUsername').value.trim();
-      const p = document.getElementById('gateLoginPassword').value;
-      const errBox = document.getElementById('loginErrorMessage');
-      const errDetail = document.getElementById('loginErrorDetail');
-      const cardContainer = document.getElementById('gateCardContainer');
-
-      if (!u || !p) return;
-
-      const matchedAccount = userAccountsDb.find(acc => acc.username.toLowerCase() === u.toLowerCase());
-
-      if (!matchedAccount) {
-        errBox.classList.remove('hidden');
-        errDetail.innerText = `Uživatel "${u}" neexistuje v poli userAccountsDb! Zkontrolujte v konzoli (F12).`;
-        triggerShakeAnimation(cardContainer);
-        showToast("Chyba přihlášení", `Účet "${u}" v databázi neexistuje.`, "error");
-        return;
-      }
-
-      if (matchedAccount.password !== p) {
-        errBox.classList.remove('hidden');
-        errDetail.innerText = `Chybné heslo pro uživatele "${u}"! Nápověda: zadejte v konzoli console.table(userAccountsDb).`;
-        triggerShakeAnimation(cardContainer);
-        showToast("Chyba hesla", "Zadané heslo neodpovídá záznamu.", "error");
-        return;
-      }
-
-      errBox.classList.add('hidden');
-      localStorage.setItem('active_user', matchedAccount.username);
-      document.getElementById('authGateWall').classList.add('hidden');
-      document.getElementById('activeUserNavbarName').innerText = matchedAccount.username;
-
-      if (DEFAULT_MOCK_DATABASE.some(acc => acc.username === matchedAccount.username)) {
-        completeChallenge(6, "Mise 6 Splněna! Přihlásil ses uniklým účtem ze školní Google Sheets DB!");
-      }
-
-      showToast("Přihlášení úspěšné", `Vítejte zpět, ${matchedAccount.username}!`, "success");
-      if (typeof confetti === 'function') confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
-    }
-
-    function triggerShakeAnimation(element) {
-      if (!element) return;
-      element.classList.remove('animate-shake');
-      void element.offsetWidth;
-      element.classList.add('animate-shake');
-      setTimeout(() => element.classList.remove('animate-shake'), 500);
-    }
-
-    function showGateWall() {
-      localStorage.removeItem('active_user');
-      document.getElementById('activeUserNavbarName').innerText = "Host";
-      document.getElementById('authGateWall').classList.remove('hidden');
-      const errBox = document.getElementById('loginErrorMessage');
-      if (errBox) errBox.classList.add('hidden');
-      showToast("Odhlášeno", "Úvodní brána byla znovu uzamčena.", "info");
-    }
-
-    function initDatabaseStorage() {
-      const stored = localStorage.getItem('vibeshop_mock_users_db');
-      if (stored) {
-        try {
-          userAccountsDb = JSON.parse(stored);
-        } catch (e) {
-          userAccountsDb = [...DEFAULT_MOCK_DATABASE];
-        }
-      } else {
-        userAccountsDb = [...DEFAULT_MOCK_DATABASE];
-        localStorage.setItem('vibeshop_mock_users_db', JSON.stringify(userAccountsDb));
-      }
-    }
-
-    /* =========================================================================
-       3. CATALOG RENDERING & DOM TAMPERING LISTENERS
-       ========================================================================= */
 
     function renderProducts() {
       const grid = document.getElementById('productGrid');
@@ -1409,57 +450,41 @@
 
       PRODUCTS.forEach(p => {
         const card = document.createElement('div');
-        card.className = "glass-card rounded-3xl p-6 flex flex-col justify-between relative group";
+        card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between";
         
         card.innerHTML = `
           <div>
-            <div class="flex items-center justify-between gap-2 mb-4">
-              <span class="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${p.badgeColor}">
-                ${p.badge}
-              </span>
-              <span class="text-xs font-mono text-slate-500">ID: #${p.id}</span>
-            </div>
-
-            <div class="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-700/80 flex items-center justify-center text-cyan-400 text-2xl mb-4 group-hover:scale-110 transition duration-300 shadow-inner">
-              <i class="fa-solid ${p.icon}"></i>
-            </div>
-
-            <h3 class="text-lg font-bold text-white mb-1 group-hover:text-cyan-300 transition">${p.title}</h3>
-            <p class="text-xs text-slate-400 mb-4">${p.subtitle}</p>
-
-            <div class="text-[11px] font-mono text-slate-400 bg-slate-950/70 p-2.5 rounded-xl border border-slate-800/80 mb-4 space-y-1">
-              <div>Parametry: <strong class="text-slate-200">${p.specs}</strong></div>
-              <div class="text-amber-300/90">&lt;input type="hidden"&gt; hodnota: <span id="display-price-card-${p.id}" class="font-bold text-white">${formatCurrency(p.normalPrice)}</span></div>
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-sky-400 text-lg">
+                <i class="fa-solid ${p.icon}"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-white text-sm">${p.title}</h3>
+                <span class="text-xs font-mono text-slate-400">${formatCurrency(p.normalPrice)}</span>
+              </div>
             </div>
           </div>
 
-          <div>
-            <form id="form-product-${p.id}" onsubmit="event.preventDefault();" class="pt-2 border-t border-slate-800/80">
-              <input type="hidden" id="p-price-${p.id}" class="p-price-input" value="${p.normalPrice}">
-              
-              <div class="flex items-center gap-2 mb-3">
-                <label class="text-[11px] font-mono text-slate-400">Množství:</label>
-                <input type="number" id="p-qty-${p.id}" class="p-qty-input w-16 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono text-center focus:outline-none focus:border-cyan-400" value="1" min="1" max="99">
-                <span class="text-[10px] text-slate-500 font-mono">(lze upravit v DOMu na záporné)</span>
+          <form id="form-product-${p.id}" onsubmit="event.preventDefault();" class="pt-3 border-t border-slate-800/80">
+            <!-- TUTO HODNOTU STUDENTI PŘEPISUJÍ V ELEMENTS -->
+            <input type="hidden" id="p-price-${p.id}" class="p-price-input" value="${p.normalPrice}">
+            
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 font-mono text-xs text-slate-400">
+                <span>ks:</span>
+                <input type="number" id="p-qty-${p.id}" class="w-12 bg-slate-950 border border-slate-700 rounded px-1.5 py-1 text-center text-white font-bold" value="1">
               </div>
-
-              <div class="flex items-center justify-between gap-3">
-                <div class="font-black text-xl text-white font-mono" id="card-price-tag-${p.id}">
-                  ${formatCurrency(p.normalPrice)}
-                </div>
-                <button type="button" onclick="triggerFlyingAddToCart(event, ${p.id})" 
-                  class="py-2.5 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs font-mono flex items-center gap-1.5 transition transform active:scale-95 shadow-lg shadow-cyan-500/20">
-                  <i class="fa-solid fa-cart-plus"></i> Do košíku
-                </button>
-              </div>
-            </form>
-          </div>
+              <button type="button" onclick="triggerAddToCart(event, ${p.id})" class="px-3 py-1.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold rounded-lg text-xs font-mono">
+                Do košíku
+              </button>
+            </div>
+          </form>
         `;
         grid.appendChild(card);
       });
     }
 
-    function triggerFlyingAddToCart(event, productId) {
+    function triggerAddToCart(event, productId) {
       const btn = event.currentTarget;
       const rect = btn.getBoundingClientRect();
       const cartBtn = document.getElementById('cartNavbarBtn');
@@ -1467,50 +492,40 @@
 
       const bullet = document.createElement('div');
       bullet.className = 'flying-bullet';
-      bullet.style.width = '18px';
-      bullet.style.height = '18px';
-      bullet.style.left = `${rect.left + rect.width / 2 - 9}px`;
-      bullet.style.top = `${rect.top + rect.height / 2 - 9}px`;
+      bullet.style.width = '14px';
+      bullet.style.height = '14px';
+      bullet.style.left = `${rect.left + rect.width / 2 - 7}px`;
+      bullet.style.top = `${rect.top + rect.height / 2 - 7}px`;
       document.body.appendChild(bullet);
 
       requestAnimationFrame(() => {
-        bullet.style.transform = `translate(${cartRect.left - rect.left}px, ${cartRect.top - rect.top}px) scale(0.3)`;
-        bullet.style.opacity = '0.2';
+        bullet.style.transform = `translate(${cartRect.left - rect.left}px, ${cartRect.top - rect.top}px) scale(0.2)`;
+        bullet.style.opacity = '0.3';
       });
 
       setTimeout(() => {
         bullet.remove();
-        cartBtn.classList.add('animate-bounce');
-        setTimeout(() => cartBtn.classList.remove('animate-bounce'), 600);
         addToCart(productId);
-      }, 650);
+      }, 550);
     }
 
     function addToCart(productId) {
       const product = PRODUCTS.find(p => p.id === productId);
-      if (!product) return;
-
       const priceInput = document.getElementById(`p-price-${productId}`);
       const qtyInput = document.getElementById(`p-qty-${productId}`);
 
       const manipulatedPrice = parseFloat(priceInput ? priceInput.value : product.normalPrice);
       const manipulatedQty = parseInt(qtyInput ? qtyInput.value : 1);
 
-      const existing = cart.find(item => item.id === productId && item.price === manipulatedPrice);
-      if (existing) {
-        existing.quantity += manipulatedQty;
-      } else {
-        cart.push({
-          id: productId,
-          title: product.title,
-          price: manipulatedPrice,
-          originalPrice: product.normalPrice,
-          quantity: manipulatedQty
-        });
-      }
+      cart.push({
+        id: productId,
+        title: product.title,
+        price: manipulatedPrice,
+        quantity: manipulatedQty
+      });
 
       updateCartBadge();
-      showToast("Zboží vloženo do košíku", `${product.title} (${manipulatedQty} ks) za ${formatCurrency(manipulatedPrice)}`, "info");
+      showToast("Košík", `${product.title} přidán (${formatCurrency(manipulatedPrice)})`, "info");
       openCartModal();
     }
 
@@ -1519,75 +534,45 @@
       container.innerHTML = '';
 
       if (cart.length === 0) {
-        container.innerHTML = `
-          <div class="py-12 text-center text-slate-500 font-mono">
-            <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-slate-700 animate-float"></i>
-            <p>Váš košík je zatím prázdný.</p>
-          </div>
-        `;
-        document.getElementById('cartSubtotal').innerText = '0 Kč';
+        container.innerHTML = `<p class="py-6 text-center text-slate-500">Košík je prázdný.</p>`;
         document.getElementById('cartTotal').innerText = '0 Kč';
         return;
       }
 
       let subtotal = 0;
-
       cart.forEach((item, index) => {
         const itemTotal = item.price * item.quantity;
         subtotal += itemTotal;
 
         const row = document.createElement('div');
-        row.className = "flex items-center justify-between p-3.5 bg-slate-950/80 border border-slate-800 rounded-2xl gap-3 text-sm";
-        
-        const isTampered = item.price !== item.originalPrice;
-        const isNegative = item.quantity < 0;
-
+        row.className = "flex justify-between items-center p-2.5 bg-slate-950 rounded-lg";
         row.innerHTML = `
-          <div class="flex-grow">
-            <div class="font-bold text-white flex items-center gap-2">
-              ${item.title}
-              ${isTampered ? '<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">CENA MANIPULOVÁNA</span>' : ''}
-              ${isNegative ? '<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">ZÁPORNÝ POČET</span>' : ''}
-            </div>
-            <div class="text-xs text-slate-400 font-mono flex items-center gap-2 mt-1">
-              <span>Cena v DOMu: <strong class="${isTampered ? 'text-amber-300 font-bold' : 'text-slate-300'}">${formatCurrency(item.price)}</strong></span>
-            </div>
+          <div>
+            <div class="font-bold text-white">${item.title}</div>
+            <div class="text-slate-400 text-[11px]">${formatCurrency(item.price)} / ks</div>
           </div>
-
           <div class="flex items-center gap-3">
-            <div class="flex items-center gap-1 bg-slate-900 border border-slate-700 px-2 py-1 rounded-xl">
-              <span class="text-[10px] text-slate-500 font-mono">ks:</span>
-              <input type="number" value="${item.quantity}" 
-                class="w-14 bg-transparent text-white font-mono text-xs text-center focus:outline-none font-bold"
-                onchange="updateCartItemQty(${index}, this.value)">
-            </div>
-            <span class="w-28 text-right font-black font-mono ${itemTotal < 0 ? 'text-emerald-400' : 'text-cyan-400'}">
-              ${formatCurrency(itemTotal)}
-            </span>
-            <button onclick="removeCartItem(${index})" class="text-slate-500 hover:text-red-400 transition p-1.5 rounded-lg hover:bg-slate-900">
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
+            <input type="number" value="${item.quantity}" class="w-12 bg-slate-900 border border-slate-700 rounded px-1 text-center text-white" onchange="updateQty(${index}, this.value)">
+            <span class="font-bold ${itemTotal < 0 ? 'text-emerald-400' : 'text-sky-400'}">${formatCurrency(itemTotal)}</span>
+            <button onclick="removeItem(${index})" class="text-slate-500 hover:text-red-400"><i class="fa-solid fa-trash"></i></button>
           </div>
         `;
         container.appendChild(row);
       });
 
-      const discountAmount = subtotal * appliedDiscountRate;
-      const finalTotal = subtotal - discountAmount;
-
-      document.getElementById('cartSubtotal').innerText = formatCurrency(subtotal);
-      document.getElementById('cartDiscount').innerText = `${Math.round(appliedDiscountRate * 100)} % ${appliedPromoCodeName ? `(${appliedPromoCodeName})` : ''}`;
+      const finalTotal = subtotal - (subtotal * appliedDiscountRate);
+      document.getElementById('cartDiscount').innerText = `${Math.round(appliedDiscountRate * 100)} %`;
       document.getElementById('cartTotal').innerText = formatCurrency(finalTotal);
     }
 
-    function updateCartItemQty(index, newQty) {
+    function updateQty(index, val) {
       if (cart[index]) {
-        cart[index].quantity = parseInt(newQty) || 0;
+        cart[index].quantity = parseInt(val) || 0;
         renderCart();
       }
     }
 
-    function removeCartItem(index) {
+    function removeItem(index) {
       cart.splice(index, 1);
       updateCartBadge();
       renderCart();
@@ -1597,129 +582,80 @@
       cart = [];
       appliedDiscountRate = 0;
       appliedPromoCodeName = null;
-      document.getElementById('activePromoBadge').innerText = "Žádný";
       updateCartBadge();
       renderCart();
     }
 
     function updateCartBadge() {
-      const badge = document.getElementById('cartCountBadge');
-      const totalCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-      badge.innerText = totalCount;
+      document.getElementById('cartCountBadge').innerText = cart.reduce((acc, i) => acc + i.quantity, 0);
     }
 
     function checkoutOrder() {
-      if (cart.length === 0) {
-        showToast("Prázdný košík", "Vložte nejprve zboží do košíku.", "error");
-        return;
-      }
+      if (cart.length === 0) return;
 
       let subtotal = 0;
-      let hasTamperedNotebook = false;
-      let hasNegativeMath = false;
+      let hasTamperedLaptop = false;
+      let hasNegative = false;
 
       cart.forEach(item => {
         subtotal += (item.price * item.quantity);
-        if (item.id === 1 && item.price <= 10 && item.quantity > 0) {
-          hasTamperedNotebook = true;
-        }
-        if (item.quantity < 0) {
-          hasNegativeMath = true;
-        }
+        if (item.id === 1 && item.price <= 10 && item.quantity > 0) hasTamperedLaptop = true;
+        if (item.quantity < 0) hasNegative = true;
       });
 
       const finalTotal = subtotal - (subtotal * appliedDiscountRate);
 
       if (finalTotal > userWallet) {
-        showToast("Nedostatek prostředků", `V peněžence máte ${formatCurrency(userWallet)}, ale objednávka činí ${formatCurrency(finalTotal)}. Zkuste cenu hacknout v DevTools!`, "error");
+        showToast("Chyba", "Nedostatek financí v peněžence!", "error");
         return;
       }
 
       userWallet -= finalTotal;
       updateWalletDisplay();
 
-      if (hasTamperedNotebook) {
-        completeChallenge(1, "Úkol 1 Splněn! Koupil jsi notebook za symbolickou cenu přepisem DOM inputu v DevTools!");
-      }
+      if (hasTamperedLaptop) completeChallenge(1, "Notebook zakoupen za 1 Kč přepisem DOM!");
+      if (hasNegative && finalTotal < 0) completeChallenge(2, "E-shop vyplatil peníze za záporný nákup!");
+      if (appliedDiscountRate >= 1.0) completeChallenge(3, "100% slevový kód uplatněn!");
 
-      if (hasNegativeMath && finalTotal < 0) {
-        completeChallenge(2, "Úkol 2 Splněn! E-shop ti vyplatil peníze za zápornou objednávku!");
-      }
-
-      if (appliedPromoCodeName === "UCITEL100" || appliedDiscountRate >= 1.0) {
-        completeChallenge(3, "Úkol 3 Splněn! Uplatnil jsi 100% tajný promo kód odhalený v konzoli!");
-      }
-
-      showToast("Objednávka dokončena!", `Zpracováno přímo v prohlížeči. Celkem: ${formatCurrency(finalTotal)}`, "success");
+      showToast("Hotovo", `Nákup proběhl. Celkem: ${formatCurrency(finalTotal)}`, "success");
       cart = [];
       updateCartBadge();
       closeCartModal();
     }
 
     function applyPromoCode() {
-      const input = document.getElementById('promoInput');
-      const code = input.value.trim().toUpperCase();
-
-      if (!code) return;
-
+      const code = document.getElementById('promoInput').value.trim().toUpperCase();
       if (PROMO_CODES_DATABASE[code]) {
-        const promo = PROMO_CODES_DATABASE[code];
-        appliedDiscountRate = promo.discount;
+        appliedDiscountRate = PROMO_CODES_DATABASE[code].discount;
         appliedPromoCodeName = code;
-
-        document.getElementById('activePromoBadge').innerText = `${code} (-${Math.round(promo.discount * 100)}%)`;
-        showToast("Sleva aktivována!", `${promo.desc} aplikována na celou objednávku.`, "success");
-
-        if (code === "UCITEL100") {
-          completeChallenge(3, "Úkol 3 Splněn! Uplatnil jsi 100% slevu 'UCITEL100' zjištěnou v DevTools!");
-        }
-
+        showToast("Sleva", `Kód ${code} aktivován!`, "success");
+        if (code === "UCITEL100") completeChallenge(3, "Mise 3 Splněna!");
         renderCart();
       } else {
-        showToast("Neplatný kód", `Kód "${code}" nebyl v databázi nalezen. Podívejte se do konzole na PROMO_CODES_DATABASE!`, "error");
+        showToast("Neplatný kód", `Kód "${code}" neexistuje. Zkontrolujte PROMO_CODES_DATABASE!`, "error");
       }
     }
-
-    /* =========================================================================
-       4. ADMIN STATUS, DATA LEAKS & DEVTOOLS HELPERS
-       ========================================================================= */
 
     function checkAdminStatus() {
       const isAdmin = localStorage.getItem('is_admin') === 'true';
       const adminArea = document.getElementById('adminSecretArea');
-      const badge = document.getElementById('userRoleBadge');
-      const cardStatus = document.getElementById('roleCardStatus');
-      const dot = document.getElementById('roleStatusDot');
-
       if (isAdmin) {
         adminArea.classList.remove('hidden');
-        badge.innerText = "ROOT_ADMINISTRATOR";
-        badge.className = "text-red-400 font-black";
-        cardStatus.innerHTML = '<i class="fa-solid fa-crown text-amber-400"></i> Root Administrátor';
-        cardStatus.className = "text-red-400 font-black font-mono";
-        dot.className = "w-2.5 h-2.5 rounded-full bg-red-500 animate-ping";
-
-        completeChallenge(5, "Úkol 5 Splněn! Změnil jsi localStorage.is_admin na 'true' přes DevTools!");
+        completeChallenge(5, "Root admin aktivován přes localStorage!");
       } else {
         adminArea.classList.add('hidden');
-        badge.innerText = "CUSTOMER";
-        badge.className = "text-cyan-300 font-bold";
-        cardStatus.innerHTML = '<i class="fa-solid fa-user-check text-xs"></i> Zákazník bez práv';
-        cardStatus.className = "text-cyan-400 font-bold font-mono";
-        dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse";
       }
     }
 
     function lockAdmin() {
       localStorage.setItem('is_admin', 'false');
       checkAdminStatus();
-      showToast("Odhlášeno", "Byl jste vrácen do role běžného zákazníka.", "info");
     }
 
     function grantAdminBonus() {
       userWallet += 100000;
       updateWalletDisplay();
-      showToast("Admin Bonus", "Připsáno +100 000 Kč do klientské peněženky!", "success");
+      showToast("Bonus", "+100 000 Kč připsáno!", "success");
     }
 
     function openCustomerReviewsModal() {
@@ -1727,131 +663,40 @@
       const list = document.getElementById('reviewsList');
       list.innerHTML = '';
 
-      try {
-        window.fetch("/api/v2/customer-reviews").catch(() => {});
-      } catch(e) {}
+      console.warn("[SECURITY AUDIT] /api/v2/customer-reviews odeslal uniklá data v objektu MASSIVE_REVIEWS_BALLAST:", MASSIVE_REVIEWS_BALLAST);
 
-      console.warn("[SECURITY AUDIT] /api/v2/customer-reviews odeslal 184 KB surových dat včetně kreditních karet a hesel!");
-      console.log("Prozkoumejte surová data v objektu MASSIVE_REVIEWS_BALLAST:", MASSIVE_REVIEWS_BALLAST);
-
-      MASSIVE_REVIEWS_BALLAST.reviews.forEach(rev => {
-        const item = document.createElement('div');
-        item.className = "p-4 bg-slate-950 border border-slate-800 rounded-2xl space-y-2";
-
-        let stars = '';
-        for (let i = 0; i < rev.rating_stars; i++) stars += '<i class="fa-solid fa-star text-amber-400 text-xs"></i>';
-
-        item.innerHTML = `
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-white text-sm">${rev.author_display_name}</span>
-            <div class="flex gap-1">${stars}</div>
-          </div>
-          <p class="text-xs text-slate-300 italic">„${rev.comment}“</p>
-        `;
-        list.appendChild(item);
+      MASSIVE_REVIEWS_BALLAST.reviews.forEach(r => {
+        const d = document.createElement('div');
+        d.className = "p-3 bg-slate-950 rounded-lg";
+        d.innerHTML = `<strong>${r.author}:</strong> <p class="text-slate-400 mt-1">${r.comment}</p>`;
+        list.appendChild(d);
       });
 
       modal.classList.remove('hidden');
-      completeChallenge(4, "Úkol 4 Splněn! Otevřel jsi recenze s overfetched JSONem (prohlédni console/network)!");
+      completeChallenge(4, "Overfetching recenzí zobrazen v síti!");
     }
 
     function closeReviewsModal() {
       document.getElementById('reviewsModal').classList.add('hidden');
     }
 
-    function inspectReviewsDevToolsHint() {
-      closeReviewsModal();
-      toggleQuestDrawer();
-      const card = document.getElementById('questCard-4');
-      if (card) card.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function openDatabaseSheetModal() {
-      renderDatabaseTable();
-      document.getElementById('databaseSheetModal').classList.remove('hidden');
-      completeChallenge(6, "Úkol 6 Splněn! Zobrazil jsi nešifrovanou Google Sheets databázi hesel!");
-    }
-
-    function closeDatabaseSheetModal() {
-      document.getElementById('databaseSheetModal').classList.add('hidden');
-    }
-
-    function renderDatabaseTable() {
-      const tbody = document.getElementById('databaseTableBody');
-      const search = (document.getElementById('dbSearchInput')?.value || '').toLowerCase();
-      tbody.innerHTML = '';
-
-      const filtered = userAccountsDb.filter(u => 
-        u.username.toLowerCase().includes(search) || 
-        u.password.toLowerCase().includes(search) ||
-        u.role.toLowerCase().includes(search)
-      );
-
-      document.getElementById('dbRecordCountBadge').innerText = `Záznamů: ${filtered.length}`;
-
-      filtered.forEach(row => {
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-800/40 transition";
-        
-        tr.innerHTML = `
-          <td class="p-2.5 text-slate-400">${row.timestamp}</td>
-          <td class="p-2.5 font-bold text-cyan-300">${row.username}</td>
-          <td class="p-2.5 font-black text-amber-300 font-mono tracking-wider bg-amber-950/20 rounded">${row.password}</td>
-          <td class="p-2.5 text-rose-400 font-semibold">${row.audit}</td>
-          <td class="p-2.5 text-slate-400">${row.ip}</td>
-          <td class="p-2.5"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-bold">${row.role}</span></td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    /* =========================================================================
-       5. QUEST TRACKING & PROGRESS SYSTEM
-       ========================================================================= */
-
-    function toggleQuestDrawer() {
-      document.getElementById('questDrawer').classList.toggle('translate-x-full');
-    }
-
-    function completeChallenge(id, celebrationText) {
+    function completeChallenge(id, msg) {
       if (CHALLENGES[id] && !CHALLENGES[id].solved) {
         CHALLENGES[id].solved = true;
-        
         const badge = document.getElementById(`badge-${id}`);
-        const card = document.getElementById(`questCard-${id}`);
-        
         if (badge) {
           badge.innerText = "SPLNĚNO ✓";
-          badge.className = "text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold";
+          badge.className = "text-emerald-400 font-bold";
         }
-        if (card) {
-          card.classList.remove('bg-slate-900/60', 'border-slate-800');
-          card.classList.add('bg-emerald-950/30', 'border-emerald-500/40');
-        }
+        const card = document.getElementById(`questCard-${id}`);
+        if (card) card.classList.add('border-emerald-500/50');
 
-        updateOverallProgress();
-        showToast("🎯 MISE SPLNĚNA!", celebrationText, "success");
-        saveState();
+        const solvedCount = Object.values(CHALLENGES).filter(c => c.solved).length;
+        document.getElementById('completedBadge').innerText = `${solvedCount}/6`;
+        document.getElementById('missionsTotalProgress').innerText = `${solvedCount} / 6 hotovo`;
 
-        if (typeof confetti === 'function') {
-          confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
-        }
-      }
-    }
-
-    function updateOverallProgress() {
-      const solvedCount = Object.values(CHALLENGES).filter(c => c.solved).length;
-      document.getElementById('completedBadge').innerText = `${solvedCount}/6`;
-      document.getElementById('heroMissionsBadge').innerText = `${solvedCount}/6`;
-      document.getElementById('missionsTotalProgress').innerText = `${solvedCount} / 6 splněno`;
-
-      if (solvedCount === 6) {
-        setTimeout(() => {
-          showToast("🏆 VŠECH 6 MISÍ SPLNĚNO!", "Gratulujeme! Prokázal jsi vysokou zručnost v práci s browser DevTools a front-end architekturou.", "success");
-          if (typeof confetti === 'function') {
-            confetti({ particleCount: 220, spread: 130, origin: { y: 0.5 } });
-          }
-        }, 800);
+        showToast("🎯 Mise Splněna", msg, "success");
+        if (typeof confetti === 'function') confetti({ particleCount: 40 });
       }
     }
 
@@ -1859,46 +704,95 @@
       Object.keys(CHALLENGES).forEach(k => {
         CHALLENGES[k].solved = false;
         const badge = document.getElementById(`badge-${k}`);
-        const card = document.getElementById(`questCard-${k}`);
         if (badge) {
           badge.innerText = "ČEKÁ";
-          badge.className = "text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700";
+          badge.className = "text-slate-500";
         }
-        if (card) {
-          card.className = "border border-slate-800 bg-slate-900/60 rounded-2xl p-4 transition-all duration-300 space-y-2.5";
-        }
+        const card = document.getElementById(`questCard-${k}`);
+        if (card) card.classList.remove('border-emerald-500/50');
       });
-
       userWallet = 10000;
       localStorage.removeItem('is_admin');
       localStorage.removeItem('active_user');
-      localStorage.removeItem('vibeshop_progress_v4_clean');
       clearCart();
-      checkAdminStatus();
       updateWalletDisplay();
-      updateOverallProgress();
-      renderProducts();
+      document.getElementById('completedBadge').innerText = "0/6";
+      document.getElementById('missionsTotalProgress').innerText = "0 / 6 hotovo";
       showGateWall();
-      showToast("Resetováno", "Všechny mise a parametry byly resetovány na výchozí hodnoty.", "info");
     }
 
-    function saveState() {
-      const progress = {};
-      Object.keys(CHALLENGES).forEach(k => {
-        progress[k] = CHALLENGES[k].solved;
-      });
-      localStorage.setItem('vibeshop_progress_v4_clean', JSON.stringify(progress));
+    function switchGateMode(mode) {
+      const regBox = document.getElementById('regFormScrollContainer');
+      const loginForm = document.getElementById('gateLoginForm');
+      const regBtn = document.getElementById('gateTabRegBtn');
+      const loginBtn = document.getElementById('gateTabLoginBtn');
+
+      if (mode === 'register') {
+        regBox.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+        regBtn.className = "flex-1 py-2 rounded-lg font-bold bg-sky-500 text-slate-950 transition";
+        loginBtn.className = "flex-1 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition";
+      } else {
+        regBox.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        loginBtn.className = "flex-1 py-2 rounded-lg font-bold bg-slate-800 text-white transition";
+        regBtn.className = "flex-1 py-2 rounded-lg font-bold text-slate-400 hover:text-white transition";
+      }
     }
 
-    function loadSavedState() {
-      try {
-        const saved = JSON.parse(localStorage.getItem('vibeshop_progress_v4_clean'));
-        if (saved) {
-          Object.keys(saved).forEach(k => {
-            if (saved[k]) completeChallenge(k, `Mise ${k} byla obnovena z předchozí relace.`);
-          });
-        }
-      } catch (e) {}
+    function handleGateRegister(e) {
+      e.preventDefault();
+      const u = document.getElementById('gateRegUsername').value.trim();
+      const p = document.getElementById('gateRegPassword').value.trim();
+      userAccountsDb.unshift({ username: u, password: p, role: "STUDENT" });
+      localStorage.setItem('active_user', u);
+      document.getElementById('authGateWall').classList.add('hidden');
+      document.getElementById('activeUserNavbarName').innerText = u;
+      showToast("Vítejte", `Přihlášen jako ${u}`, "success");
+    }
+
+    function handleGateLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('gateLoginUsername').value.trim();
+      const p = document.getElementById('gateLoginPassword').value;
+      const match = userAccountsDb.find(acc => acc.username.toLowerCase() === u.toLowerCase() && acc.password === p);
+
+      if (match) {
+        localStorage.setItem('active_user', match.username);
+        document.getElementById('authGateWall').classList.add('hidden');
+        document.getElementById('activeUserNavbarName').innerText = match.username;
+        completeChallenge(6, "Přihlášeno účtem z userAccountsDb!");
+      } else {
+        const err = document.getElementById('loginErrorMessage');
+        err.classList.remove('hidden');
+        const container = document.getElementById('gateCardContainer');
+        container.classList.add('animate-shake');
+        setTimeout(() => container.classList.remove('animate-shake'), 400);
+      }
+    }
+
+    function showGateWall() {
+      localStorage.removeItem('active_user');
+      document.getElementById('authGateWall').classList.remove('hidden');
+    }
+
+    function checkInitialGateState() {
+      if (localStorage.getItem('active_user')) {
+        document.getElementById('authGateWall').classList.add('hidden');
+        document.getElementById('activeUserNavbarName').innerText = localStorage.getItem('active_user');
+      }
+    }
+
+    function updateWalletDisplay() {
+      document.getElementById('userWalletDisplay').innerText = formatCurrency(userWallet);
+    }
+
+    function formatCurrency(n) {
+      return new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'CZK', maximumFractionDigits: 0 }).format(n);
+    }
+
+    function toggleQuestDrawer() {
+      document.getElementById('questDrawer').classList.toggle('translate-x-full');
     }
 
     function openCartModal() {
@@ -1918,47 +812,13 @@
       document.getElementById('exploitGuideModal').classList.add('hidden');
     }
 
-    function updateWalletDisplay() {
-      const el = document.getElementById('userWalletDisplay');
-      el.innerHTML = `${formatCurrency(userWallet)}`;
-      if (userWallet < 0) {
-        el.className = "text-4xl sm:text-5xl font-black font-mono text-red-400 tracking-tight flex items-baseline gap-2 mb-6";
-      } else {
-        el.className = "text-4xl sm:text-5xl font-black font-mono text-emerald-400 tracking-tight flex items-baseline gap-2 mb-6";
-      }
-    }
-
-    function formatCurrency(amount) {
-      return new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'CZK', maximumFractionDigits: 0 }).format(amount);
-    }
-
-    function showToast(title, message, type = 'info') {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      
-      const borderCol = type === 'success' ? 'border-emerald-500' : type === 'error' ? 'border-red-500' : 'border-cyan-500';
-      const icon = type === 'success' ? 'fa-circle-check text-emerald-400' : type === 'error' ? 'fa-circle-xmark text-red-400' : 'fa-info-circle text-cyan-400';
-
-      toast.className = `pointer-events-auto bg-slate-900/95 border-l-4 ${borderCol} border-t border-r border-b border-slate-800 p-4 rounded-2xl shadow-2xl max-w-sm flex items-start gap-3.5 transform translate-y-4 opacity-0 transition-all duration-300`;
-
-      toast.innerHTML = `
-        <i class="fa-solid ${icon} text-lg mt-0.5"></i>
-        <div class="flex-grow">
-          <h4 class="font-bold text-white text-sm">${title}</h4>
-          <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">${message}</p>
-        </div>
-      `;
-
-      container.appendChild(toast);
-
-      setTimeout(() => {
-        toast.classList.remove('translate-y-4', 'opacity-0');
-      }, 10);
-
-      setTimeout(() => {
-        toast.classList.add('translate-y-4', 'opacity-0');
-        setTimeout(() => toast.remove(), 350);
-      }, 5500);
+    function showToast(title, msg, type = 'info') {
+      const c = document.getElementById('toastContainer');
+      const t = document.createElement('div');
+      t.className = `p-3 rounded-xl bg-slate-900 border ${type === 'success' ? 'border-emerald-500 text-emerald-300' : type === 'error' ? 'border-red-500 text-red-300' : 'border-sky-500 text-sky-300'} font-mono text-xs shadow-xl`;
+      t.innerHTML = `<strong>${title}:</strong> ${msg}`;
+      c.appendChild(t);
+      setTimeout(() => t.remove(), 4000);
     }
   </script>
 </body>
