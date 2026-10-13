@@ -441,6 +441,50 @@
       <button onclick="resetAllChallenges()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded">Reset</button>
     </div>
   </aside>
+  <!-- Bonus Chaos Lab Card -->
+<div class="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/40 space-y-3 font-mono text-xs">
+  <div class="flex items-center gap-2 text-amber-400 font-bold">
+    <i class="fa-solid fa-fire-flame-curved"></i>
+    <span>Máš hotovo 10/10? Rozbij web ještě víc! (Chaos Sandbox)</span>
+  </div>
+  <p class="text-slate-300 text-[11px] leading-relaxed font-sans">
+    Pokud jsi splnil všechny mise, vyzkoušej tyto pokročilé experimenty přímo v konzoli prohlížeče:
+  </p>
+
+  <div class="space-y-2 text-[11px]">
+    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
+      <strong class="text-sky-300 block mb-0.5">1. Nekonečný déšť konfet (DoS prohlížeče):</strong>
+      Zadej do konzole smyčku:
+      <code class="code-tag">setInterval(() => confetti(), 100);</code>
+      Sleduj, co to udělá s vytížením procesoru (CPU) v záložce <em>Performance</em> nebo ve správci úloh.
+    </div>
+
+    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
+      <strong class="text-amber-300 block mb-0.5">2. Vlastní zboží do katalogu za běhu:</strong>
+      Vlož do pole nové zboží:
+      <code class="code-tag">PRODUCTS.push({id: 99, title: "Rohlík", normalPrice: 3, icon: "fa-bread-slice", maxQty: 99}); renderProducts();</code>
+      Stránka se okamžitě překreslí i s tvým novým produktem!
+    </div>
+
+    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
+      <strong class="text-emerald-300 block mb-0.5">3. Přepis libovolného textu webu (Design Mode):</strong>
+      Napiš do konzole kouzelný příkaz:
+      <code class="code-tag">document.designMode = "on";</code>
+      Klikni kamkoliv na stránku a začni psát jako ve Wordu – můžeš přepsat nadpisy, tlačítka i cizí recenze.
+    </div>
+
+    <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
+      <strong class="text-rose-400 block mb-0.5">4. Zničení layoutu přes CSS transformace:</strong>
+      Otoč celý web vzhůru nohama příkazem:
+      <code class="code-tag">document.body.style.transform = "rotate(180deg)";</code>
+      Nebo spusť animaci rotace pro všechny karty produktů.
+    </div>
+  </div>
+
+  <div class="text-[10px] text-slate-500 pt-1">
+    💡 Kdykoliv to přeženeš a stránka zamrzne, stačí stisknout <kbd class="code-tag">F5</kbd> a vše se vrátí do původního stavu.
+  </div>
+</div>
 
   <!-- Cart Modal -->
   <div id="cartModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
