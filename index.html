@@ -369,16 +369,142 @@
     </div>
   </div>
 
-  <!-- Exploit Guide Modal -->
-  <div id="exploitGuideModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl p-6 space-y-4 text-xs leading-relaxed">
-      <h3 class="font-bold text-white text-base">Pravidlo klientské bezpečnosti</h3>
-      <p class="text-slate-300">
-        Prohlížeč (front-end) je plně pod kontrolou uživatele. Jakoukoliv proměnnou, HTML atribut nebo odesílanou částku může uživatel změnit. Veškeré autorizace, ověřování cen a ukládání hesel proto musí běžet na serveru.
-      </p>
-      <div class="flex justify-end">
-        <button onclick="closeExploitGuide()" class="px-4 py-2 bg-sky-500 text-slate-950 font-bold rounded-lg">Rozumím</button>
+ <!-- Exploit Guide Modal (Strukturovaná Teorie pro Studenty) -->
+  <div id="exploitGuideModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950 shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-lg border border-sky-500/20">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-white text-base">Architektura webu &amp; Klientská bezpečnost</h3>
+            <p class="text-xs text-slate-400 font-mono">Jak web funguje uvnitř a proč F12 není žádné kouzlo</p>
+          </div>
+        </div>
+        <button onclick="closeExploitGuide()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
       </div>
+
+      <!-- Scrollable Grid of Cards -->
+      <div class="p-6 overflow-y-auto space-y-5 text-slate-300 font-sans">
+        
+        <!-- Golden Rule Card -->
+        <div class="p-4 rounded-2xl bg-sky-950/30 border border-sky-500/40 flex items-start gap-3.5">
+          <i class="fa-solid fa-shield-halved text-sky-400 text-2xl mt-0.5 shrink-0"></i>
+          <div>
+            <h4 class="font-bold text-sky-300 text-sm mb-1 uppercase tracking-wider font-mono">Zlaté pravidlo architektury klient–server</h4>
+            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+              <strong>„Klientovi se nikdy, za žádných okolností, nevěří.“</strong> Frontend slouží výhradně pro pohodlí uživatele. Skutečné zabezpečení, autorizace rolí a přepočty financí musí vždy běžet na serveru, kam uživatel s klávesou F12 nedosáhne.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
+          
+          <!-- Card 1: F12 Magic -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 text-sky-400 font-bold font-mono mb-1">
+                <i class="fa-solid fa-terminal"></i>
+                <span>1. Co se děje po stisku F12?</span>
+              </div>
+              <p class="text-slate-300">
+                Prohlížeč nefunguje jako vzdálená televize. Ze serveru si stáhl surové soubory HTML, CSS a JS a přímo <strong>v RAM paměti tvého počítače</strong> z nich postavil živý strom prvků (DOM).
+              </p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800/80 text-[11px] text-slate-400 font-mono">
+              <strong class="text-slate-200 block mb-0.5">Analogie z reality:</strong>
+              Když v záložce Elements přepíšeš cenu, je to jako vzít fixu a přepsat cenovku na krabici mléka doma v lednici. Obchod o tom vůbec neví.
+            </div>
+          </div>
+
+          <!-- Card 2: HTML Attributes -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 text-amber-400 font-bold font-mono mb-1">
+                <i class="fa-solid fa-ban"></i>
+                <span>2. Atributy nejsou bezpečnost</span>
+              </div>
+              <p class="text-slate-300">
+                Značky jako <code class="code-tag">disabled</code>, <code class="code-tag">max="2"</code> nebo <code class="code-tag">required</code> jsou pro prohlížeč jen zdvořilá doporučení: <em>„Uživateli, klikej prosím jen sem.“</em>
+              </p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800/80 text-[11px] text-slate-400 font-mono">
+              <strong class="text-slate-200 block mb-0.5">Proč to selhává:</strong>
+              Protože kód běží u tebe, můžeš atribut v DOMu smazat nebo odeslat požadavek přímo z konzole. Backend musí skladové limity hlídat sám.
+            </div>
+          </div>
+
+          <!-- Card 3: Storage & Cookies -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 text-violet-400 font-bold font-mono mb-1">
+                <i class="fa-solid fa-cookie-bite"></i>
+                <span>3. JavaScript není trezor</span>
+              </div>
+              <p class="text-slate-300">
+                Data v <code class="code-tag">localStorage</code>, <code class="code-tag">document.cookie</code> nebo globálních proměnných leží v otevřeném textu přímo v operačním systému.
+              </p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800/80 text-[11px] text-slate-400 font-mono">
+              <strong class="text-slate-200 block mb-0.5">Správná praxe:</strong>
+              Autentizační cookies musí mít serverový příznak <code class="text-violet-300">HttpOnly</code>, aby je klientský JavaScript nemohl číst ani měnit.
+            </div>
+          </div>
+
+          <!-- Card 4: System Time -->
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 text-emerald-400 font-bold font-mono mb-1">
+                <i class="fa-solid fa-clock"></i>
+                <span>4. Čas na počítači není čas vesmíru</span>
+              </div>
+              <p class="text-slate-300">
+                Když web měří platnost bleskové slevy pomocí <code class="code-tag">Date.now()</code>, ptá se systémových hodin v liště tvých Windows nebo telefonu.
+              </p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800/80 text-[11px] text-slate-400 font-mono">
+              <strong class="text-slate-200 block mb-0.5">Důsledek:</strong>
+              Stačí posunout hodiny nebo v konzoli přepsat funkci a skript uvěří, že akce stále trvá. Čas transakcí musí vždy razítkovat server.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Full-width Card: AI Trap -->
+        <div class="p-4 rounded-2xl bg-slate-950 border border-rose-900/40 space-y-2.5">
+          <div class="flex items-center gap-2 text-rose-400 font-bold font-mono text-xs">
+            <i class="fa-solid fa-robot"></i>
+            <span>5. Proč je VibeShop typická „AI webovka“ a v čem je past generovaného kódu?</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Generativní AI (ChatGPT, Claude) umí během několika sekund vyplivnout vizuálně působivou aplikaci s plynulými animacemi, košíkem i tmavým režimem. Jazykový model je ale vytrénovaný k tomu, aby co nejrychleji vyřešil to, co je <strong>vidět na obrazovce</strong>. Pokud nedostane přesné instrukce, postaví celou logiku (ceny, slevy, práva) naivně do jednoho souboru v prohlížeči.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-[11px] font-mono">
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400">
+              <strong class="text-rose-400 block mb-1">❌ Fasáda bez backendu (AI default):</strong>
+              Klient posílá částku: <em>„Kupuji zboží a platím 1 Kč.“</em> Server bez ověření vezme číslo a zapíše objednávku.
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400">
+              <strong class="text-emerald-400 block mb-1">✓ Bezpečná architektura:</strong>
+              Klient posílá pouze záměr: <em>„Chci 1 ks položky #1.“</em> Server si sám vytáhne cenu z databáze a provede stržení.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-slate-800 bg-slate-950 flex justify-end shrink-0">
+        <button onclick="closeExploitGuide()" class="px-5 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold rounded-xl text-xs font-mono transition">
+          Zavřít příručku
+        </button>
+      </div>
+
     </div>
   </div>
 
