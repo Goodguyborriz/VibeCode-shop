@@ -16,23 +16,27 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          keyframes: {
-            shake: {
-              '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
-              '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
-              '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
-              '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
+    try {
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            keyframes: {
+              shake: {
+                '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+                '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+                '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+                '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
+              }
+            },
+            animation: {
+              shake: 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
             }
-          },
-          animation: {
-            shake: 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
           }
         }
-      }
+      };
+    } catch (e) {
+      console.warn("Tailwind config warning:", e);
     }
   </script>
 
@@ -57,7 +61,8 @@
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased">
-<!-- Briefing Modal (Úvodní slovo pro studenty) -->
+
+  <!-- Briefing Modal (Úvodní slovo pro studenty) -->
   <div id="briefingModal" class="fixed inset-0 z-[60] bg-slate-950/90 backdrop-blur-md hidden flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-sky-500/40 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] font-sans">
       
@@ -130,6 +135,7 @@
 
     </div>
   </div>
+
   <!-- Auth Gate Wall -->
   <div id="authGateWall" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-md overflow-y-auto">
     <div id="gateCardContainer" class="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative my-8 max-h-[90vh] flex flex-col">
@@ -270,10 +276,10 @@
           <span id="userTierBadge" class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono">tier: standard</span>
           <button onclick="showGateWall()" title="Odhlásit" class="hover:text-red-400 ml-1"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
-<button onclick="openBriefingModal()" title="Úvodní instrukce k labu" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono">
-  <i class="fa-solid fa-circle-question text-sky-400"></i>
-  <span class="hidden md:inline">Instrukce</span>
-</button>
+        <button onclick="openBriefingModal()" title="Úvodní instrukce k labu" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono">
+          <i class="fa-solid fa-circle-question text-sky-400"></i>
+          <span class="hidden md:inline">Instrukce</span>
+        </button>
         <button id="cartNavbarBtn" onclick="openCartModal()" class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs">
           <i class="fa-solid fa-basket-shopping"></i>
           <span>Košík</span>
@@ -351,7 +357,7 @@
           <span>1. Cenový kouzelník (DOM)</span>
           <span id="badge-1" class="text-slate-500">ČEKÁ</span>
         </div>
-        <p class="text-slate-400 text-[11px]">Přepište v Elements cenu notebooku (<code class="code-tag">id="p-price-1"</code>) na <strong>1 Kč</strong> a kupte jej.</p>
+        <p class="text-slate-400 text-[11px]">Přepište v Elements cenu notebooku (<code class="code-tag">id="p-price-1"</code> nebo text v cenovce) na <strong>1 Kč</strong> a kupte jej.</p>
       </div>
 
       <!-- 2 -->
@@ -378,7 +384,7 @@
           <span>4. Overfetching (Network)</span>
           <span id="badge-4" class="text-slate-500">ČEKÁ</span>
         </div>
-        <p class="text-slate-400 text-[11px]">Otevřete Recenze a v Network tabu prozkoumejte uniklý response požadavku.</p>
+        <p class="text-slate-400 text-[11px]">Otevřete Recenze a v Network tabu (či konzoli) prozkoumejte uniklý response požadavku.</p>
       </div>
 
       <!-- 5 -->
@@ -426,7 +432,7 @@
         <p class="text-slate-400 text-[11px]">Otevřete DevTools &rarr; <strong>Application</strong> &rarr; <em>Cookies</em> a změňte cookie <code class="code-tag">user_tier</code> na <code class="code-tag">vip</code> (nebo zadejte v konzoli <code class="code-tag">document.cookie = "user_tier=vip"</code>).</p>
       </div>
 
-     <!-- 10 -->
+      <!-- 10 -->
       <div id="questCard-10" class="border border-slate-800 bg-slate-950/50 rounded-xl p-3 space-y-1">
         <div class="flex justify-between font-bold text-slate-200">
           <span>10. Cestování časem (Date Tampering)</span>
@@ -449,7 +455,7 @@
           <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
             <strong class="text-sky-300 block mb-0.5">1. Nekonečný déšť konfet (DoS prohlížeče):</strong>
             Zadej do konzole smyčku:
-            <code class="code-tag">setInterval(() => confetti(), 100);</code>
+            <code class="code-tag">setInterval(() => { if (typeof confetti === 'function') confetti(); }, 100);</code>
             Sleduj, co to udělá s vytížením procesoru (CPU) v záložce <em>Performance</em> nebo ve správci úloh.
           </div>
 
@@ -528,7 +534,7 @@
       </div>
       <div id="reviewsList" class="p-4 space-y-3 overflow-y-auto"></div>
       <div class="p-3 border-t border-slate-800 bg-slate-950 text-amber-400 text-[11px]">
-        Otevřete DevTools &rarr; Network &rarr; podívejte se na response požadavku.
+        Otevřete DevTools &rarr; Network &rarr; podívejte se na response požadavku (nebo do konzole).
       </div>
     </div>
   </div>
@@ -634,7 +640,7 @@
             <span>5. Proč je VibeShop typická „AI webovka“ a v čem je past generovaného kódu?</span>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Generativní AI (ChatGPT, Claude) umí během několika sekund vyplivnout vizuálně působivou aplikaci s plynulými animacemi, košíkem i tmavým režimem. Jazykový model je ale vytrénovaný k tomu, aby co nejrychleji vyřešil to, co je <strong>vidět na obrazovce</strong>. Pokud nedostane přesné instrukce, postaví celou logiku (ceny, slevy, práva) naivně do jednoho souboru v prohlížeči.
+            Generativní AI umí během několika sekund vyplivnout vizuálně působivou aplikaci s plynulými animacemi, košíkem i tmavým režimem. Jazykový model je ale vytrénovaný k tomu, aby co nejrychleji vyřešil to, co je <strong>vidět na obrazovce</strong>. Pokud nedostane přesné instrukce, postaví celou logiku (ceny, slevy, práva) naivně do jednoho souboru v prohlížeči.
           </p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-[11px] font-mono">
             <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400">
@@ -662,13 +668,43 @@
   <!-- Mobile DevTools (Eruda) -->
   <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
   <script>
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || ('ontouchstart' in window);
-    if (isMobile || window.location.search.includes('debug=true')) {
-      eruda.init({ tool: ['elements', 'console', 'network', 'resources'] });
+    try {
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || ('ontouchstart' in window);
+      if ((isMobile || window.location.search.includes('debug=true')) && typeof eruda !== 'undefined') {
+        eruda.init({ tool: ['elements', 'console', 'network', 'resources'] });
+      }
+    } catch (e) {
+      console.warn("Eruda devtools nelze spustit:", e);
     }
   </script>
 
   <script>
+    /* 0. SAFE STORAGE FALLBACK (Ochrana proti restrikcím školní domény) */
+    const memoryStore = {};
+    const safeStorage = {
+      getItem(key) {
+        try {
+          return localStorage.getItem(key);
+        } catch (e) {
+          return memoryStore[key] || null;
+        }
+      },
+      setItem(key, value) {
+        try {
+          localStorage.setItem(key, value);
+        } catch (e) {
+          memoryStore[key] = String(value);
+        }
+      },
+      removeItem(key) {
+        try {
+          localStorage.removeItem(key);
+        } catch (e) {
+          delete memoryStore[key];
+        }
+      }
+    };
+
     /* 1. DATA & GLOBAL STATE */
     const DEFAULT_MOCK_DATABASE = [
       { username: "reditel@skola-gymnazium.cz", password: "HesloReditel2026!", role: "HEADMASTER" },
@@ -678,8 +714,12 @@
 
     window.userAccountsDb = [...DEFAULT_MOCK_DATABASE];
 
-    if (!document.cookie.includes('user_tier=')) {
-      document.cookie = "user_tier=standard; path=/";
+    try {
+      if (!document.cookie.includes('user_tier=')) {
+        document.cookie = "user_tier=standard; path=/";
+      }
+    } catch (e) {
+      console.warn("Cookie nelze zapsat:", e);
     }
 
     const PRODUCTS = [
@@ -723,14 +763,24 @@
 
     /* 2. INITIALIZATION */
     window.addEventListener('DOMContentLoaded', () => {
-      renderProducts();
-      checkInitialGateState();
-      setInterval(checkAdminStatus, 800);
-      setInterval(checkCookieTierStatus, 1000);
+      try {
+        renderProducts();
+        checkInitialGateState();
+        setInterval(checkAdminStatus, 800);
+        setInterval(checkCookieTierStatus, 1000);
+
+        const seen = safeStorage.getItem('vibeshop_briefing_seen');
+        if (!seen) {
+          openBriefingModal();
+        }
+      } catch (err) {
+        console.error("Chyba při inicializaci labu:", err);
+      }
     });
 
     function renderProducts() {
       const grid = document.getElementById('productGrid');
+      if (!grid) return;
       grid.innerHTML = '';
 
       PRODUCTS.forEach(p => {
@@ -763,7 +813,7 @@
               </div>
               <div>
                 <h3 class="font-bold text-white text-sm">${p.title}</h3>
-                <span class="text-xs font-mono text-slate-400">${p.normalPrice === 0 ? 'ZDARMA (0 Kč)' : formatCurrency(p.normalPrice)}</span>
+                <span id="p-price-text-${p.id}" class="text-xs font-mono text-slate-400">${p.normalPrice === 0 ? 'ZDARMA (0 Kč)' : formatCurrency(p.normalPrice)}</span>
               </div>
             </div>
           </div>
@@ -784,37 +834,54 @@
     }
 
     function triggerAddToCart(event, productId) {
-      const btn = event.currentTarget;
-      const rect = btn.getBoundingClientRect();
-      const cartBtn = document.getElementById('cartNavbarBtn');
-      const cartRect = cartBtn.getBoundingClientRect();
+      try {
+        const btn = event.currentTarget;
+        const rect = btn.getBoundingClientRect();
+        const cartBtn = document.getElementById('cartNavbarBtn');
+        const cartRect = cartBtn ? cartBtn.getBoundingClientRect() : { left: 0, top: 0 };
 
-      const bullet = document.createElement('div');
-      bullet.className = 'flying-bullet';
-      bullet.style.width = '14px';
-      bullet.style.height = '14px';
-      bullet.style.left = `${rect.left + rect.width / 2 - 7}px`;
-      bullet.style.top = `${rect.top + rect.height / 2 - 7}px`;
-      document.body.appendChild(bullet);
+        const bullet = document.createElement('div');
+        bullet.className = 'flying-bullet';
+        bullet.style.width = '14px';
+        bullet.style.height = '14px';
+        bullet.style.left = `${rect.left + rect.width / 2 - 7}px`;
+        bullet.style.top = `${rect.top + rect.height / 2 - 7}px`;
+        document.body.appendChild(bullet);
 
-      requestAnimationFrame(() => {
-        bullet.style.transform = `translate(${cartRect.left - rect.left}px, ${cartRect.top - rect.top}px) scale(0.2)`;
-        bullet.style.opacity = '0.3';
-      });
+        requestAnimationFrame(() => {
+          bullet.style.transform = `translate(${cartRect.left - rect.left}px, ${cartRect.top - rect.top}px) scale(0.2)`;
+          bullet.style.opacity = '0.3';
+        });
 
-      setTimeout(() => {
-        bullet.remove();
+        setTimeout(() => {
+          bullet.remove();
+          addToCart(productId);
+        }, 550);
+      } catch (e) {
         addToCart(productId);
-      }, 550);
+      }
     }
 
     function addToCart(productId) {
       const product = PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+
       const priceInput = document.getElementById(`p-price-${productId}`);
+      const priceTextEl = document.getElementById(`p-price-text-${productId}`);
       const qtyInput = document.getElementById(`p-qty-${productId}`);
 
-      const manipulatedPrice = parseFloat(priceInput ? priceInput.value : product.normalPrice);
-      const manipulatedQty = parseInt(qtyInput ? qtyInput.value : 1);
+      // Zkontroluje jak skrytý input, tak textový span pro případ, že žák přepsal text v DOMu
+      let manipulatedPrice = product.normalPrice;
+      if (priceInput && parseFloat(priceInput.value) !== product.normalPrice) {
+        manipulatedPrice = parseFloat(priceInput.value);
+      } else if (priceTextEl) {
+        const parsedFromSpan = parseFloat(priceTextEl.innerText.replace(/[^\d.-]/g, ''));
+        if (!isNaN(parsedFromSpan)) {
+          manipulatedPrice = parsedFromSpan;
+        }
+      }
+
+      const manipulatedQty = parseInt(qtyInput ? qtyInput.value : 1) || 0;
 
       if (productId === 6 && manipulatedQty >= 10) {
         completeChallenge(7, "Mise 7 Splněna! Obešel jsi klientský limit max 2 ks a objednal " + manipulatedQty + " disků!");
@@ -838,6 +905,7 @@
 
     function renderCart() {
       const container = document.getElementById('cartItemsContainer');
+      if (!container) return;
       container.innerHTML = '';
 
       if (cart.length === 0) {
@@ -894,7 +962,10 @@
     }
 
     function updateCartBadge() {
-      document.getElementById('cartCountBadge').innerText = cart.reduce((acc, i) => acc + i.quantity, 0);
+      const badge = document.getElementById('cartCountBadge');
+      if (badge) {
+        badge.innerText = cart.reduce((acc, i) => acc + i.quantity, 0);
+      }
     }
 
     function checkoutOrder() {
@@ -944,29 +1015,41 @@
     }
 
     function checkAdminStatus() {
-      const isAdmin = localStorage.getItem('is_admin') === 'true';
-      const adminArea = document.getElementById('adminSecretArea');
-      if (isAdmin) {
-        adminArea.classList.remove('hidden');
-        completeChallenge(5, "Root admin aktivován přes localStorage!");
-      } else {
-        adminArea.classList.add('hidden');
+      try {
+        const isAdmin = safeStorage.getItem('is_admin') === 'true';
+        const adminArea = document.getElementById('adminSecretArea');
+        if (adminArea) {
+          if (isAdmin) {
+            adminArea.classList.remove('hidden');
+            completeChallenge(5, "Root admin aktivován přes localStorage!");
+          } else {
+            adminArea.classList.add('hidden');
+          }
+        }
+      } catch (e) {
+        console.warn("Chyba v checkAdminStatus:", e);
       }
     }
 
     function checkCookieTierStatus() {
-      const cookies = document.cookie.split(';').map(c => c.trim());
-      const tierCookie = cookies.find(c => c.startsWith('user_tier='));
-      const tierValue = tierCookie ? tierCookie.split('=')[1] : 'standard';
+      try {
+        const cookies = document.cookie.split(';').map(c => c.trim());
+        const tierCookie = cookies.find(c => c.startsWith('user_tier='));
+        const tierValue = tierCookie ? tierCookie.split('=')[1] : 'standard';
 
-      const badge = document.getElementById('userTierBadge');
-      if (tierValue.toLowerCase() === 'vip') {
-        badge.innerText = 'tier: VIP ✨';
-        badge.className = 'text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-mono font-bold';
-        completeChallenge(9, "Mise 9 Splněna! Přepsal jsi cookie user_tier na 'vip'!");
-      } else {
-        badge.innerText = 'tier: ' + tierValue;
-        badge.className = 'text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono';
+        const badge = document.getElementById('userTierBadge');
+        if (badge) {
+          if (tierValue && tierValue.toLowerCase() === 'vip') {
+            badge.innerText = 'tier: VIP ✨';
+            badge.className = 'text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-mono font-bold';
+            completeChallenge(9, "Mise 9 Splněna! Přepsal jsi cookie user_tier na 'vip'!");
+          } else {
+            badge.innerText = 'tier: ' + (tierValue || 'standard');
+            badge.className = 'text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono';
+          }
+        }
+      } catch (e) {
+        console.warn("Chyba v checkCookieTierStatus:", e);
       }
     }
 
@@ -975,22 +1058,26 @@
       const timerEl = document.getElementById('flashSaleTimer');
 
       if (now < FLASH_SALE_DEADLINE) {
-        timerEl.innerText = "AKTIVNÍ! (Zbývá 23:59:59)";
-        timerEl.className = "text-emerald-400 font-bold animate-pulse";
+        if (timerEl) {
+          timerEl.innerText = "AKTIVNÍ! (Zbývá 23:59:59)";
+          timerEl.className = "text-emerald-400 font-bold animate-pulse";
+        }
         appliedDiscountRate = 0.90;
         appliedPromoCodeName = "FLASHSALE90";
         showToast("Blesková akce", "Sleva 90% aktivována manipulací s časem!", "success");
         completeChallenge(10, "Mise 10 Splněna! Přepsal jsi klientský čas/Date.now()!");
         renderCart();
       } else {
-        timerEl.innerText = "SKONČILO (00:00:00)";
-        timerEl.className = "text-slate-500 font-semibold";
+        if (timerEl) {
+          timerEl.innerText = "SKONČILO (00:00:00)";
+          timerEl.className = "text-slate-500 font-semibold";
+        }
         showToast("Čas vypršel", "Akce skončila. Zkuste v konzoli přepsat Date.now!", "error");
       }
     }
 
     function lockAdmin() {
-      localStorage.setItem('is_admin', 'false');
+      safeStorage.setItem('is_admin', 'false');
       checkAdminStatus();
     }
 
@@ -1003,6 +1090,7 @@
     function openCustomerReviewsModal() {
       const modal = document.getElementById('reviewsModal');
       const list = document.getElementById('reviewsList');
+      if (!modal || !list) return;
       list.innerHTML = '';
 
       console.warn("[SECURITY AUDIT] /api/v2/customer-reviews odeslal uniklá data v objektu MASSIVE_REVIEWS_BALLAST:", MASSIVE_REVIEWS_BALLAST);
@@ -1015,11 +1103,12 @@
       });
 
       modal.classList.remove('hidden');
-      completeChallenge(4, "Overfetching recenzí zobrazen v síti!");
+      completeChallenge(4, "Overfetching recenzí zobrazen v síti/konzoli!");
     }
 
     function closeReviewsModal() {
-      document.getElementById('reviewsModal').classList.add('hidden');
+      const modal = document.getElementById('reviewsModal');
+      if (modal) modal.classList.add('hidden');
     }
 
     function completeChallenge(id, msg) {
@@ -1034,11 +1123,17 @@
         if (card) card.classList.add('border-emerald-500/50');
 
         const solvedCount = Object.values(CHALLENGES).filter(c => c.solved).length;
-        document.getElementById('completedBadge').innerText = `${solvedCount}/10`;
-        document.getElementById('missionsTotalProgress').innerText = `${solvedCount} / 10 hotovo`;
+        const compBadge = document.getElementById('completedBadge');
+        if (compBadge) compBadge.innerText = `${solvedCount}/10`;
+        const totalProgress = document.getElementById('missionsTotalProgress');
+        if (totalProgress) totalProgress.innerText = `${solvedCount} / 10 hotovo`;
 
         showToast("🎯 Mise Splněna", msg, "success");
-        if (typeof confetti === 'function') confetti({ particleCount: 45 });
+        try {
+          if (typeof confetti === 'function') confetti({ particleCount: 45 });
+        } catch (e) {
+          // Ignorovat, pokud je CDN blokována
+        }
       }
     }
 
@@ -1054,13 +1149,17 @@
         if (card) card.classList.remove('border-emerald-500/50');
       });
       userWallet = 10000;
-      document.cookie = "user_tier=standard; path=/";
-      localStorage.removeItem('is_admin');
-      localStorage.removeItem('active_user');
+      try {
+        document.cookie = "user_tier=standard; path=/";
+      } catch (e) {}
+      safeStorage.removeItem('is_admin');
+      safeStorage.removeItem('active_user');
       clearCart();
       updateWalletDisplay();
-      document.getElementById('completedBadge').innerText = "0/10";
-      document.getElementById('missionsTotalProgress').innerText = "0 / 10 hotovo";
+      const compBadge = document.getElementById('completedBadge');
+      if (compBadge) compBadge.innerText = "0/10";
+      const totalProgress = document.getElementById('missionsTotalProgress');
+      if (totalProgress) totalProgress.innerText = "0 / 10 hotovo";
       showGateWall();
     }
 
@@ -1088,9 +1187,10 @@
       const u = document.getElementById('gateRegUsername').value.trim();
       const p = document.getElementById('gateRegPassword').value.trim();
       userAccountsDb.unshift({ username: u, password: p, role: "STUDENT" });
-      localStorage.setItem('active_user', u);
+      safeStorage.setItem('active_user', u);
       document.getElementById('authGateWall').classList.add('hidden');
-      document.getElementById('activeUserNavbarName').innerText = u;
+      const navUser = document.getElementById('activeUserNavbarName');
+      if (navUser) navUser.innerText = u;
       showToast("Vítejte", `Přihlášen jako ${u}`, "success");
     }
 
@@ -1101,33 +1201,41 @@
       const match = userAccountsDb.find(acc => acc.username.toLowerCase() === u.toLowerCase() && acc.password === p);
 
       if (match) {
-        localStorage.setItem('active_user', match.username);
+        safeStorage.setItem('active_user', match.username);
         document.getElementById('authGateWall').classList.add('hidden');
-        document.getElementById('activeUserNavbarName').innerText = match.username;
+        const navUser = document.getElementById('activeUserNavbarName');
+        if (navUser) navUser.innerText = match.username;
         completeChallenge(6, "Přihlášeno účtem z userAccountsDb!");
       } else {
         const err = document.getElementById('loginErrorMessage');
-        err.classList.remove('hidden');
+        if (err) err.classList.remove('hidden');
         const container = document.getElementById('gateCardContainer');
-        container.classList.add('animate-shake');
-        setTimeout(() => container.classList.remove('animate-shake'), 400);
+        if (container) {
+          container.classList.add('animate-shake');
+          setTimeout(() => container.classList.remove('animate-shake'), 400);
+        }
       }
     }
 
     function showGateWall() {
-      localStorage.removeItem('active_user');
-      document.getElementById('authGateWall').classList.remove('hidden');
+      safeStorage.removeItem('active_user');
+      const gate = document.getElementById('authGateWall');
+      if (gate) gate.classList.remove('hidden');
     }
 
     function checkInitialGateState() {
-      if (localStorage.getItem('active_user')) {
-        document.getElementById('authGateWall').classList.add('hidden');
-        document.getElementById('activeUserNavbarName').innerText = localStorage.getItem('active_user');
+      const active = safeStorage.getItem('active_user');
+      if (active) {
+        const gate = document.getElementById('authGateWall');
+        if (gate) gate.classList.add('hidden');
+        const navUser = document.getElementById('activeUserNavbarName');
+        if (navUser) navUser.innerText = active;
       }
     }
 
     function updateWalletDisplay() {
-      document.getElementById('userWalletDisplay').innerText = formatCurrency(userWallet);
+      const disp = document.getElementById('userWalletDisplay');
+      if (disp) disp.innerText = formatCurrency(userWallet);
     }
 
     function formatCurrency(n) {
@@ -1135,57 +1243,58 @@
     }
 
     function toggleQuestDrawer() {
-      document.getElementById('questDrawer').classList.toggle('translate-x-full');
+      const drawer = document.getElementById('questDrawer');
+      if (drawer) drawer.classList.toggle('translate-x-full');
     }
 
     function openCartModal() {
       renderCart();
-      document.getElementById('cartModal').classList.remove('hidden');
+      const modal = document.getElementById('cartModal');
+      if (modal) modal.classList.remove('hidden');
     }
 
     function closeCartModal() {
-      document.getElementById('cartModal').classList.add('hidden');
+      const modal = document.getElementById('cartModal');
+      if (modal) modal.classList.add('hidden');
     }
 
     function openExploitGuide() {
-      document.getElementById('exploitGuideModal').classList.remove('hidden');
+      const modal = document.getElementById('exploitGuideModal');
+      if (modal) modal.classList.remove('hidden');
     }
 
     function closeExploitGuide() {
-      document.getElementById('exploitGuideModal').classList.add('hidden');
+      const modal = document.getElementById('exploitGuideModal');
+      if (modal) modal.classList.add('hidden');
     }
 
     function showToast(title, msg, type = 'info') {
       const c = document.getElementById('toastContainer');
+      if (!c) return;
       const t = document.createElement('div');
       t.className = `p-3 rounded-xl bg-slate-900 border ${type === 'success' ? 'border-emerald-500 text-emerald-300' : type === 'error' ? 'border-red-500 text-red-300' : 'border-sky-500 text-sky-300'} font-mono text-xs shadow-xl`;
       t.innerHTML = `<strong>${title}:</strong> ${msg}`;
       c.appendChild(t);
       setTimeout(() => t.remove(), 4000);
     }
+
     function openBriefingModal() {
-  document.getElementById('briefingModal').classList.remove('hidden');
-}
+      const m = document.getElementById('briefingModal');
+      if (m) m.classList.remove('hidden');
+    }
 
-function closeBriefingModal() {
-  document.getElementById('briefingModal').classList.add('hidden');
-}
+    function closeBriefingModal() {
+      const m = document.getElementById('briefingModal');
+      if (m) m.classList.add('hidden');
+    }
 
-function startLabBriefing() {
-  const dontShow = document.getElementById('dontShowBriefingAgain')?.checked;
-  if (dontShow) {
-    localStorage.setItem('vibeshop_briefing_seen', 'true');
-  }
-  closeBriefingModal();
-}
-
-// Zobrazit automaticky při prvním načtení stránky
-window.addEventListener('DOMContentLoaded', () => {
-  const seen = localStorage.getItem('vibeshop_briefing_seen');
-  if (!seen) {
-    openBriefingModal();
-  }
-});
+    function startLabBriefing() {
+      const dontShow = document.getElementById('dontShowBriefingAgain')?.checked;
+      if (dontShow) {
+        safeStorage.setItem('vibeshop_briefing_seen', 'true');
+      }
+      closeBriefingModal();
+    }
   </script>
 </body>
 </html>
